@@ -1,6 +1,6 @@
-// Greedy algorithm. Use as little coins as possible to hand the customer their cash.
+// Program that runs a basic greedy algorith. 
+// User inputs the change owed in Dollars, program outputs the ammount of coins used.
 // Quarters: 0.25, Dimes: 0.10, Nickels: 0.05, Pennies: 0.01
-// Prints every coin used. Not for submission
 
 // Conditions and declarations
 #include <stdio.h>
@@ -20,34 +20,36 @@ int main(void)
 
     // Convert float to int, making input in cents
     int cents = round(dollars * 100);
-    printf("Cents: %i\n", cents);
-
     int coins = 0;
 
+    // Loop for quarters
     for (int q = 1; (cents / 25 >= 1); q++)
     {
-        printf("quarters: %i\n", q);
         cents = cents - 25;
         coins++;
     }
+
+    // Loop for dimes
     for (int d = 1; cents / 10 >= 1; d++)
     {
-        printf("dimes: %i\n", d);
         cents = cents - 10;
         coins++;
     }
+
+    // Loop for nickels
     for (int n = 1; cents / 5 >= 1; n++)
     {
-        printf("nickels: %i\n", n);
         cents = cents - 5;
         coins++;
     }
+
+    // Loop for pennies
     for (int p = 1; cents / 1 >= 1; p++)
     {
-        printf("pennies: %i\n", p);
         cents = cents - 1;
         coins++;
     }
+
+    // Prints number of coins used
     printf("Total coins used: %i\n", coins);
-    printf("Remaining change: %i\n", cents);
 }
