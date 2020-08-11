@@ -1,3 +1,5 @@
+// Program that runs an election using plurality vote to determine the winner.
+
 #include <cs50.h>
 #include <stdio.h>
 #include <string.h>
@@ -66,8 +68,10 @@ int main(int argc, string argv[])
 // Update vote totals given a new vote
 bool vote(string name)
 {
+    // Iterate trough candidates
     for (int j = 0; j < candidate_count; j++)
     {
+        // If the names matches a candidate
         if (strcmp((name), candidates[j].name) == 0)
         {
             candidates[j].votes ++;
@@ -76,18 +80,23 @@ bool vote(string name)
     }
     return false;
 }
+
 // Print the winner (or winners) of the election
 void print_winner(void)
 {
-    // TODO
+    // Keep track of the current maximum number of votes
     int max = 0;
+
     for (int i = 0; i < candidate_count; i++)
     {
+        // If candidate[i] has more votes than the current max, update the max
         if (candidates[i].votes > max)
         {
             max = candidates[i].votes;
         }
     }
+    
+    // Max has been found, so print the candidates that match max
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes == max)
@@ -97,4 +106,3 @@ void print_winner(void)
     }
     return;
 }
-
