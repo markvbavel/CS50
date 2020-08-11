@@ -1,3 +1,6 @@
+// Program that simulates a runoff election. Candidates have to get more than 50% of votes to win. 
+// If no winner after a round, the candidate with the least amount of votes get eliminated.
+
 #include <cs50.h>
 #include <stdio.h>
 #include <string.h>
@@ -132,10 +135,10 @@ bool vote(int voter, int rank, string name)
     // Iterate trough each candidate
     for (int i = 0; i < candidate_count; i++)
     {
-        // Check if given name is existing candidate
+        // Check if given name matches existing candidate
         if (strcmp((name), candidates[i].name) == 0)
         {
-            // If name maches: add vote to correct location in preferences [voter] [rank]
+            // If name maches: add candidate to preferences [voter] [rank]
             preferences[voter][rank] = i;
             return true;
         }
@@ -151,7 +154,8 @@ void tabulate(void)
     {
         // Preferences "j" is set to the first preference. it also resets to the first preference evey time the loop starts.
         int j = 0;
-        // If a candidate is eliminated: look for the next preference
+        
+        // If a candidate is eliminated: look for the next prefered candidate
         while ((candidates[preferences[i][j]].eliminated) == true)
         {
             j++;
