@@ -1,25 +1,26 @@
-//Program that analyzes text and keeps count of letters, numbers and sentences. Eventually giving a grade to the complexity of it.
+// Program that analyzes text and tracks the sentence, word and letter count.
+// The program outputs a grade of the complexity of the text.
+// Formula: 'index = 0.0588 * L - 0.296 * S - 15.8'. 
+// 'L' = average number of letters per 100 words
+// 'S' = average number of sentences per 100 words
 
-//Libraries
+// Libraries
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
 #include <ctype.h>
 #include <math.h>
 
-//Declarations
 
-
-//Main
+// Main
 int main(void)
 {
-    //Prompt user for string input
+    // Prompt user for string input
     string text = get_string("Text: ");
 
-    //Declaring that n is the length of string text.
     int n = strlen(text);
 
-    //Check for letters and keeping count.
+    // Check for upper- or lowercase letters
     int count_letters = 0;
     for (int i = 0; i < n; i++)
     {
@@ -33,7 +34,8 @@ int main(void)
         }
     }
 
-    //Check for words and keeping count.
+    // Check for words and keeping count
+    // When a space is found, a word is added
     int count_words = 0;
     for (int j = 0; j < n; j++)
     {
@@ -44,7 +46,8 @@ int main(void)
     }
     count_words++;
 
-    //Check for sentences and keeping count.
+    // Check for sentences and keeping count
+    // A sentence is added when '.', '?' or '!' is found
     int count_sentences = 0;
     for (int k = 0; k < n; k++)
     {
@@ -54,14 +57,14 @@ int main(void)
         }
     }
 
-    //Calculating the values of L and S
+    // Calculating the values of L and S
     float L = ((float) count_letters) / ((float) count_words) * 100;
     float S = ((float) count_sentences) / ((float) count_words) * 100;
 
-    //Adding the numbers together.
+    // Adding the numbers together
     float index = (0.0588 * L) - (0.296 * S) - 15.8;
 
-    //Printing grade output
+    // Printing grade output
     if (index <= 16 && index >= 1)
     {
         printf("Grade %i\n", (int) round(index));
