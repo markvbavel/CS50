@@ -1,4 +1,5 @@
 // Implements a dictionary's functionality
+
 #include <stdbool.h>
 #include <stdio.h>
 #include "dictionary.h"
@@ -89,7 +90,6 @@ bool load(const char *dictionary)
         node *new_node = malloc(sizeof(node));
         if (new_node == NULL)
         {
-            // Call the unload function to stop file i/o and free memory
             unload();
             return false;
         }
@@ -107,15 +107,14 @@ bool load(const char *dictionary)
             hashtable[hashval] = new_node;
             new_node->next = NULL;
             word_count++;
-            //printf("NEW '%s' in [] %i.\n", new_node->word, hashval);
         }
-        // Else: point the new node to the existing node. Then point the array to the new node.
+        
+        // If there is a word in the hash table: point the new node to the existing node. Then point the array to the new node.
         else
         {
             new_node->next = hashtable[hashval];
             hashtable[hashval] = new_node;
             word_count++;
-            //printf("+ '%s' in [] %i.\n", new_node->word, hashval);
         }
 
     }
@@ -125,7 +124,7 @@ bool load(const char *dictionary)
     return true;
 }
 
-// Returns number of words in dictionary if loaded else 0 if not yet loaded
+// Returns number of words in dictionary
 unsigned int size(void)
 {
     // When the file failed to load, size is 0
@@ -141,7 +140,7 @@ unsigned int size(void)
     }
 }
 
-// Unloads dictionary from memory, returning true if successful else false
+// Unloads dictionary from memory. Returns true if successful
 bool unload(void)
 {
     // Iterate over hashtable array. Thus finding the headers
@@ -155,11 +154,12 @@ bool unload(void)
         {
             node *tmp = cursor; // Temp pointer points to the same as cursor does
             cursor = cursor->next; // Cursor follows the arrow
-            free(tmp); // Temp gets free'd.
+            free(tmp); // Temp gets freed
         }
 
+        // When end is reached, cursor gets freed
         free(cursor);
-
     }
+
     return true;
 }
