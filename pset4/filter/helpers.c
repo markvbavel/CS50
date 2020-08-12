@@ -1,3 +1,5 @@
+// Helper functions for filter.c
+
 // Includes
 #include <math.h>
 #include "helpers.h"
@@ -6,19 +8,22 @@
 // Function prototypes
 void swap(RGBTRIPLE *a, RGBTRIPLE *b);
 
-// Convert image to grayscale
+// Converts image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
-    // Iterate trough all rows (height)
-    for (int i = 0; i < height; i++)
+    // Iterate trough rows (height)
+
+    // i = h
+    // j = w
+    for (int h = 0; h < height; h++)
     {
-        // Iterate trough all collums (width)
-        for (int j = 0; j < width; j++)
+        // Iterate trough collums (width)
+        for (int w = 0; w < width; w++)
         {
-            // Check rgbtRed && rgbtGreen && rgbtBlue value and store it. (Hexadecimal??)
-            int red = image[i][j].rgbtRed;
-            int green = image[i][j].rgbtGreen;
-            int blue = image[i][j].rgbtBlue;
+            // Check rgbtRed, rgbtGreen, rgbtBlue value and store it
+            int red = image[h][w].rgbtRed;
+            int green = image[h][w].rgbtGreen;
+            int blue = image[h][w].rgbtBlue;
 
             // Calculate average of the three values
             float faverage = ((float) red + (float) green + (float) blue) / 3;
@@ -26,27 +31,27 @@ void grayscale(int height, int width, RGBTRIPLE image[height][width])
             int iaverage = round(faverage);
 
             // Change rgbtRed && rgbtGreen && rgbtBlue to the stored value
-            image[i][j].rgbtRed = iaverage;
-            image[i][j].rgbtGreen = iaverage;
-            image[i][j].rgbtBlue = iaverage;
+            image[h][w].rgbtRed = iaverage;
+            image[h][w].rgbtGreen = iaverage;
+            image[h][w].rgbtBlue = iaverage;
         }
     }
     return;
 }
 
-// Convert image to sepia
+// Converts image to sepia
 void sepia(int height, int width, RGBTRIPLE image[height][width])
 {
-    // Iterate trough all rows
-    for (int i = 0; i < height; i++)
+    // Iterate trough rows
+    for (int h = 0; h < height; h++)
     {
-        // Iterate trough all collums
-        for (int j = 0; j < width; j++)
+        // Iterate trough collums
+        for (int w = 0; w < width; w++)
         {
             // Check RGBT values and store them in an integer
-            int orgRed = image[i][j].rgbtRed;
-            int orgGreen = image[i][j].rgbtGreen;
-            int orgBlue = image[i][j].rgbtBlue;
+            int orgRed = image[h][w].rgbtRed;
+            int orgGreen = image[h][w].rgbtGreen;
+            int orgBlue = image[h][w].rgbtBlue;
 
             // Apply sepia formula to RGBT values and round the output to the nearest integer
             int sepiaRed = round((orgRed * 0.393) + (orgGreen * 0.769) + (orgBlue * 0.189));
@@ -61,7 +66,7 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
                 sepiaRed = 255;
             }
             // Change origional rgbt values to their new sepia values
-            image[i][j].rgbtRed = sepiaRed;
+            image[h][w].rgbtRed = sepiaRed;
 
             // Do the same for Green
             int sepiaGreen = round((orgRed * 0.349) + (orgGreen * 0.686) + (orgBlue * 0.168));
@@ -75,7 +80,7 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
                 sepiaGreen = 255;
             }
 
-            image[i][j].rgbtGreen = sepiaGreen;
+            image[h][w].rgbtGreen = sepiaGreen;
 
             // Do the same for Blue;
             int sepiaBlue = round((orgRed * 0.272) + (orgGreen * 0.534) + (orgBlue * 0.131));
@@ -88,44 +93,48 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
             {
                 sepiaBlue = 255;
             }
-            image[i][j].rgbtBlue = sepiaBlue;
+            image[h][w].rgbtBlue = sepiaBlue;
         }
     }
     return;
 }
 
-// Reflect image horizontally
+// Reflects image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
-    // Iterate trough rows
-    for (int i = 0; i < height; i++)
+    // Iterate trough rows (height)
+    for (int h = 0; h < height; h++)
     {
         int n = 1;
-        for (int j = 0; j < (width / 2); j++)
+        
+        // Iterate trough HALF the width
+        for (int w = 0; w < (width / 2); w++)
         {
-            swap(&image[i][j], &image[i][width - n]);
+            // Swaps pixels
+            swap(&image[h][w], &image[h][width - n]);
             n++;
         }
     }
     return;
 }
 
+// Help function to swap two RGBTRIPLE values
 void swap(RGBTRIPLE *a, RGBTRIPLE *b)
 {
-    RGBTRIPLE temp;
+    RGBTRIPLE temp1;
     RGBTRIPLE temp2;
-    temp = *a;
+    temp1 = *a;
     temp2 = *b;
     *a = temp2;
-    *b = temp;
+    *b = temp1;
 }
 
 // Blur image
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
-    // 1 | 2 | 3
-    // 4 | 5 | 6
-    // 7 | 8 | 9
+    // image = [[1, 2, 3],
+    //          [4, 5, 6],
+    //          [7, 8, [r, g, b]]]
 
     // Make a copy of the original picture
     RGBTRIPLE copy[height][width];
@@ -148,26 +157,27 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
             int sumGreen = 0;
             int sumBlue = 0;
 
-            // Loop over horizontal adjecent pixels (range: -1 - 1) (1-3)
-            for (int k = -1; k < 2; k++)
+            // Iterate over horRange adjecent pixels ( px 1-3)
+            for (int horRange = -1; horRange <= 1; horRange++) // k
             {
-                // Loop over vertical adjecent pixels (range: -1 - 1) (2-8)
-                for (int l = -1; l < 2; l++)
+                // Iterate over vertical adjecent pixels ( px 2-8)
+                for (int verRange = -1; verRange <= 1; verRange++) // l
                 {
-                    int x = h + k;
-                    int y = w + l;
+                    int horAvg = h + horRange; //x
+                    int verAvg = w + verRange; //y
 
-                    if (x >= 0 && x < height && y >= 0 && y < width)
+                    if (horAvg >= 0 && horAvg < height && verAvg >= 0 && verAvg < width)
                     {
-                        // image = [[1, 2, 3, 4],
-                        //          [5, 6, 7, 8],
-                        // .        [9, 10, 11, 12],
-                        // .        [13, 14, 15, [r g b]]]
-                        sumRed += image[x][y].rgbtRed;
-                        sumGreen += image[x][y].rgbtGreen;
-                        sumBlue += image[x][y].rgbtBlue;
+                        sumRed += image[horAvg][verAvg].rgbtRed;
+                        sumGreen += image[horAvg][verAvg].rgbtGreen;
+                        sumBlue += image[horAvg][verAvg].rgbtBlue;
                         count ++;
                     }
+
+                    else
+                    {
+                        continue;
+                    }    
                 }
             }
 
@@ -178,11 +188,11 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     }
 
     // Copy the altered pixel to the original picture
-    for (int i = 0; i < height; i++)
+    for (int h = 0; h < height; h++)
     {
-        for (int j = 0; j < width; j++)
+        for (int w = 0; w < width; w++)
         {
-            image[i][j] = copy[i][j];
+            image[h][w] = copy[h][w];
         }
     }
     return;
