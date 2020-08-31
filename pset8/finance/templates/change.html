@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Change
+{% endblock %}
+
+{% block main %}
+    <div class='container'>
+        <div clas='row'>
+            <h4>Change from yesterday</h4>
+        </div>
+        <div class='row'>
+
+        </div>
+    </div>
+    <table class='table table-striped' style='margin-top: 1.5rem'>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Change</th>
+                <th>Change %</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for stock in user_stocks %}
+                <tr>
+                    <td>{{ stock["symbol"] }}</td>
+                    <td>{{ stock["name"] }}</td>
+                    <td>{{ stock["change"] }}</td>
+                    <td>{{ stock["changePercent"] }}%</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+{% endblock %}
+

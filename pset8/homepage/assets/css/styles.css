@@ -1,0 +1,145 @@
+:root {
+    --mercedes: #00D2BE;
+    --ferrari: #DC0000;
+    --redbull: #0600EF;
+    --mclaren: #FF8700;
+    --renault: #FFF500;
+    --alphatauri: #FFFFFF;
+    --racingpoint: #F596C8;
+    --alfaromeo: #960000;
+    --haas: #787878;
+    --williams: #0082FA;
+    --f1: #e10600;
+}
+
+#car-img, .car-img {
+  max-width: 400px;
+}
+
+.listing-item-wrapper,
+.listing-header-wrapper {
+    border-style: solid;
+    border-top: solid 2px #333333;
+    border-right: solid 2px #333333;
+    border-left: hidden 2px #333333;
+    border-bottom: hidden 2px #333333;
+    border-top-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+
+}
+
+.header-link {
+    display: block;
+    color: #333333;
+    border-top-right-radius: 10px;
+}
+
+.header-link:focus,
+.header-link:hover,
+.listing-header-wrapper:hover {
+    border-color: var(--f1);
+    transition: .2s ease;
+    color: inherit;
+    text-shadow: 1px 0px 1px #333333;
+}
+
+.listing-item-wrapper {
+    margin-top: 40px;
+}
+
+.listing-link:focus,
+.listing-link:hover,
+.listing-item-wrapper:hover {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-color: currentColor;
+    transition: .2s all ease;
+}
+
+.listing-header-wrapper {
+    margin-top: 10px;
+}
+
+.listing-header {
+    margin-bottom: 0px;
+    text-align: center;
+    display: block;
+}
+
+.title {
+    font-size: 50px;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: 0.5rem;
+    letter-spacing: 5px;
+}
+
+.site-wrapper {
+    margin: 10px;
+    padding: 10px;
+    color: #333333;
+}
+
+.col {
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.block {
+    display: block;
+}
+
+.bg-darker {
+    background-color: #f6f6f6;
+}
+
+.listing-info,
+.listing-drivers {
+    display: flex;
+    color: #333333;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.listing-drivers {
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+    border-bottom-right-radius: 10px;
+    padding-right: 5px;
+    padding-left: 5px;
+    font-size: 17px;
+}
+
+.listing-info {
+    border-bottom: 1px solid;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    padding-left: 5px;
+    font-size: 26px;
+}
+
+.listing-image {
+    text-align: center;
+}
+
+.listing-subtitle-wrapper {
+    margin-top: 10px;
+    padding-right: 10px;
+    padding-top: 10px;
+    text-align: center;
+    font-size: 18px;
+}
+
+.footer {
+    margin-top: 10px;
+    padding-top: 15px;
+}
+#footer {
+    text-align: center;
+}
+
+a:active {
+    padding: 0px;
+}

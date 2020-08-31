@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+
+
+{% block main %}
+
+    <table class='table table-striped'>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Name</th>
+                <th>Shares</th>
+                <th>Current price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for stock in user_stocks %}
+                <tr>
+                    <td>{{ stock["symbol"] }}</td>
+                    <td>{{ stock["name"] }}</td>
+                    <td>{{ stock["SUM(shares)"] }}</td>
+                    <td>{{ usd(stock["current_price"]) }}</td>
+                    <td>{{ usd(stock["current_price"] * stock["SUM(shares)"]) }}</td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <td>CASH</td>
+                    <td colspan='3'></td>
+                    <td>{{ usd(user_cash) }}</td>
+                </tr>
+        </tbody>
+
+        <tfoot>
+            <tr>
+                <td colspan='4'></td>
+                <td><strong>{{ usd(total_value) }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+
+{% endblock %}
+
+
+
