@@ -1,0 +1,33 @@
+body {
+    font-family: 'Varela Round', sans-serif;
+}
+
+.logo {
+    /* style logo */
+
+    width: auto;
+    display: flex;
+    max-width: 400px;
+    margin-left: inherit;
+    margin-right: inherit;
+}
+
+.login {
+    margin-bottom:5px;
+}
+.dropdown-menu {
+    width: 300px !important;
+}
+
+main .form-control {
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+.sticky {
+    position: fixed;
+    width: 100%;
+}
