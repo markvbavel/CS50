@@ -12,11 +12,20 @@ body {
     margin-right: inherit;
 }
 
+
+
 .login {
     margin-bottom:5px;
 }
 .dropdown-menu {
-    width: 300px !important;
+    width: 300px !important;   
+}
+
+.dropdown-menu.show {
+    overflow: hidden;
+    padding: 12px 16px;
+    right: 10px
+
 }
 
 main .form-control {
@@ -30,4 +39,26 @@ main .form-control {
 .sticky {
     position: fixed;
     width: 100%;
+}
+
+/* brand colors */
+.brand-orange {
+    color: #fb7f03;
+}
+.brand-purple {
+    color: #a931bd;
+}
+
+main {
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
 }

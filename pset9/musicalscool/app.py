@@ -36,26 +36,10 @@ Session(app)
 db = SQL("sqlite:///musical.db")
 
 
-
-
 @app.route("/")
 @login_required
 def index():
-    """Show portfolio of stocks"""
-    return apology("TODO")
-
-
-@app.route("/buy", methods=["GET", "POST"])
-@login_required
-def buy():
-    """Buy shares of stock"""
-    return apology("TODO")
-
-
-@app.route("/history")
-@login_required
-def history():
-    """Show history of transactions"""
+    """Show overview of all students in a table"""
     return apology("TODO")
 
 
@@ -91,7 +75,7 @@ def login():
         # Redirect user to home page
         return redirect("/")
 
-    # User reached route via GET (as by clicking a link or via redirect)
+    # User reached route via GET
     else:
         return render_template("login.html")
 
@@ -107,24 +91,14 @@ def logout():
     return redirect("/")
 
 
-@app.route("/quote", methods=["GET", "POST"])
-@login_required
-def quote():
-    """Get stock quote."""
-    return apology("TODO")
-
-
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register")
 def register():
-    """Register user"""
-    return apology("TODO")
+    if request.method == "POST":
+        return redirect("/")
+    
+    else:
+        return render_template("register.html")
 
-
-@app.route("/sell", methods=["GET", "POST"])
-@login_required
-def sell():
-    """Sell shares of stock"""
-    return apology("TODO")
 
 
 def errorhandler(e):
@@ -137,3 +111,9 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
+
+# Gets user ID
+def get_user_id():
+    user_id = session["user_id"]
+    return user_id
+

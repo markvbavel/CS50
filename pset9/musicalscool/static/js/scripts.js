@@ -1,2 +1,3 @@
-// Waits for the page to load
-document.addEventListener('DOMContentLoaded', function() {})
+$( document ).ready(function() {
+    console.log( "Document ready!" );
+});
