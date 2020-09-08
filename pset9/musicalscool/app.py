@@ -1,7 +1,8 @@
 import os
 
-from cs50 import SQL
-from flask import Flask, flash, jsonify, redirect, render_template, request, session
+#from cs50 import SQL
+import sqlite3
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, g
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -34,6 +35,7 @@ Session(app)
 
 # Configure CS50 Library to use SQLite database
 db = SQL("sqlite:///musical.db")
+
 
 
 @app.route("/")

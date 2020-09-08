@@ -38,30 +38,36 @@
 
             <!-- Navbar content that will collapse on mobile -->
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Login</a>
-                        
-                        <div class="dropdown-menu">
-                            <form class="form-horizontal" method="POST">
-                                <input class="form-control login" type="text" name="username" placeholder="Username...">
-                                <input class="form-control login" type="password" name="password" placeholder="Password...">
-                                <input class="btn btn-primary" type="submit" name="submit" value="Login"> 
-                            </form>
-                        </div>
-                    </li>
+                    {% if not session.user_id %}
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Sign Up</a>
-                        
-                        <div class="dropdown-menu">
-                            <form class="form-horizontal" method="POST">
-                                <input class="form-control register" type="text" name="username" placeholder="Username...">
-                                <input class="form-control register" type="password" name="password" placeholder="Password...">
-                                <input class="btn btn-primary" type="submit" name="submit" value="Sign up"> 
-                            </form>
-                        </div>
-                    </li>             
-                    
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Login</a>
+                            
+                            <div class="dropdown-menu">
+                                <form class="form-horizontal" method="POST">
+                                    <input class="form-control login" type="text" name="username" placeholder="Username...">
+                                    <input class="form-control login" type="password" name="password" placeholder="Password...">
+                                    <input class="btn btn-primary" type="submit" name="submit" value="Login"> 
+                                </form>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Sign Up</a>
+                            
+                            <div class="dropdown-menu">
+                                <form class="form-horizontal" method="POST">
+                                    <input class="form-control register" type="text" name="username" placeholder="Username...">
+                                    <input class="form-control register" type="password" name="password" placeholder="Password...">
+                                    <input class="btn btn-primary" type="submit" name="submit" value="Sign up"> 
+                                </form>
+                            </div>
+                        </li>    
+                    {% else %}
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">{ username }</a>
+                        </li>             
+                    {% endif %}
                     <div class="search-container">
                         <form class="form-inline my-2 my-lg-0">
                             <input class="form-control mr-sm-2" type="text" placeholder="Search..." aria-label="Search">
