@@ -27,7 +27,7 @@
     <body>
 
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky">
             <a class="navbar-brand logo" href="/">
                 <img class="logo" src="/static/images/musicalscool-logo.png" alt="">
             </a>
@@ -37,37 +37,44 @@
             <div class="collapse navbar-collapse" id="navbar">
 
             <!-- Navbar content that will collapse on mobile -->
-
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Login</a>
-                       
-                        <div class="dropdown-menu dropdown-menu-wrap">
-                            <form class="form-horizontal" methon="post">
+                        
+                        <div class="dropdown-menu">
+                            <form class="form-horizontal" method="POST">
                                 <input class="form-control login" type="text" name="username" placeholder="Username...">
                                 <input class="form-control login" type="password" name="password" placeholder="Password...">
-                                <input class="btn btn-primary" type="submit" name="submit" value="Login">
+                                <input class="btn btn-primary" type="submit" name="submit" value="Login"> 
                             </form>
                         </div>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Sign up</a>
-
-                        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 10px">
-                            <form class="form-horizontal" methon="post">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">Sign Up</a>
+                        
+                        <div class="dropdown-menu">
+                            <form class="form-horizontal" method="POST">
                                 <input class="form-control register" type="text" name="username" placeholder="Username...">
                                 <input class="form-control register" type="password" name="password" placeholder="Password...">
-                                <input class="form-control register" type="password" name="confirm" placeholder="Confirm password...">
-                                <input class="btn btn-primary" type="submit" name="submit" value="Sign up">
+                                <input class="btn btn-primary" type="submit" name="submit" value="Sign up"> 
                             </form>
                         </div>
-                    </li>
+                    </li>             
+                    
+                    <div class="search-container">
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search..." aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i class="fa fa-search"></i></button>
+                        </form>
+                    </div>
                 </ul>
-
             </div>
+            
+            
         </nav>
 
+        <!-- Flashes messages at page top -->
         {% if get_flashed_messages() %}
             <header>
                 <div class="alert alert-primary border text-center" role="alert">
@@ -76,19 +83,17 @@
             </header>
         {% endif %}
 
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search..." aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-
-        <main class="container">
-            {% block main %}{% endblock %}
+        <main>
+            <div class="container mx-auto margin-offset">
+                {% block main %}{% endblock %}
+            </div>
         </main>
 
-
+        <!-- DELETE LATER -->
         <div class="container" style="height: 1000px"></div>
         <p class="text-center">Some text to enable scrolling.</p>
 
+        <!-- Script -->
         <script src="/static/js/scripts.js"></script>
 
     </body>
