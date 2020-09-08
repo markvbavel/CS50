@@ -17,17 +17,25 @@ body {
 .login {
     margin-bottom:5px;
 }
+
+.register {
+    margin-bottom: 5px;
+}
+
 .dropdown-menu {
-    width: 300px !important;   
+    width: 300px !important; 
+    padding: 12px 16px;  
 }
 
-.dropdown-menu.show {
-    overflow: hidden;
-    padding: 12px 16px;
-    right: 10px
-
+.dropdown-toggle {
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
 }
 
+.dropdown-menu-wrap {
+    display: none;
+    
+}
 main .form-control {
     /* center form controls */
     display: inline-block;
