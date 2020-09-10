@@ -38,3 +38,8 @@ def login_required(f):
 def eur(value):
     """Format value as eur."""
     return f"${value:,.2f}"
+
+def get_user_id():
+    # Gets user ID
+    user_id = session["user_id"]
+    return user_id

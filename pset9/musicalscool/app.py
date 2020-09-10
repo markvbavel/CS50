@@ -1,6 +1,5 @@
 import os
 
-#from cs50 import SQL
 import sqlite3
 from flask import Flask, flash, jsonify, redirect, render_template, request, session, g
 from flask_session import Session
@@ -8,13 +7,16 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, eur
+from helpers import apology, login_required, eur, get_user_id
 
 # Configure application
 app = Flask(__name__)
 
-# Ensure templates are auto-reloaded
-app.config["TEMPLATES_AUTO_RELOAD"] = True
+# Configure SQlite database connection
+def get_db_connection():
+    conn = sqlite3.connect('database.db')
+    conn.row_factory = sqlite3.Row
+    return conn
 
 # Ensure responses aren't cached
 @app.after_request
@@ -32,9 +34,6 @@ app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
-
-# Configure CS50 Library to use SQLite database
-db = SQL("sqlite:///musical.db")
 
 
 
@@ -101,21 +100,15 @@ def register():
     else:
         return render_template("register.html")
 
-
-
 def errorhandler(e):
     """Handle error"""
     if not isinstance(e, HTTPException):
         e = InternalServerError()
     return apology(e.name, e.code)
 
-
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
 
-# Gets user ID
-def get_user_id():
-    user_id = session["user_id"]
-    return user_id
+
 
