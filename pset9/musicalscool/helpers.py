@@ -57,7 +57,13 @@ def connect_db(db_file):
 
     except sqlite3.Error as error:
         print("Failed to connect to database. Error:", error)
-    
+
+def dict_factory(cursor, row):
+    """ Returns dictionary """
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d    
 
 def insert_user(conn, user_data):
     """Returns user id"""
@@ -67,12 +73,14 @@ def insert_user(conn, user_data):
 
         cur = conn.cursor()
         cur.execute(sql, user_data)
-        conn.commit()
-        print(cur.rowcount, "records inserted successfully into users table.")
-        return cur.lastrowid
-
     except sqlite3.Error as error:
         print("Failed to insert user into users table. Error:", error)
+        conn.rollback()
+    else:
+        conn.commit()    
+        print(cur.rowcount, "records inserted successfully into users table.")
+    finally:
+        return cur.lastrowid
 
 
 def insert_student(conn, student_data):
@@ -84,12 +92,14 @@ def insert_student(conn, student_data):
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
         cur = conn.cursor()
         cur.execute(sql, student_data)
+    except sqlite3.Error as error:
+        print("Failed to insert student data into students table. Error:", error)  
+        conn.rollback()  
+    else:
         conn.commit()
         print(cur.rowcount, "records inserted succesfully into students table.")
+    finally:
         return cur.lastrowid
-
-    except sqlite3.Error as error:
-        print("Failed to insert student data into students table. Error:", error)    
 
 def close_connection(conn):
     if conn:

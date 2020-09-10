@@ -7,7 +7,7 @@ from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from helpers import apology, login_required, eur, get_user_id, connect_db, insert_user, insert_student, close_connection
+from helpers import apology, login_required, eur, get_user_id, connect_db, insert_user, insert_student, close_connection, dict_factory
 
 # Configure application
 app = Flask(__name__)
@@ -15,7 +15,7 @@ app = Flask(__name__)
 # Configure SqLite3 database
 database = ("database.db")
 conn = connect_db(database)
-conn.row_factory = sqlite3.Row
+conn.row_factory = dict_factory
 cur = conn.cursor()
 
 
@@ -24,12 +24,13 @@ insert_user(conn, user_data)
 student_tuple = ("Mark", "van", "Bavel", "01-01-2001", "Gilze", "Groen", "1234567890", "0987654321", "test@text.com", "mark@test.com", "1", "Sjef", "some note")
 insert_student(conn, student_tuple)
 
-cur.execute("SELECT * FROM students")
-result = cur.fetchall()
+result = cur.execute("SELECT * FROM students").fetchall()
+
 
 for row in result:
-    print("students: {}".format(row))
+    print(row["last"], row["id"])
 
+print()
 close_connection(conn)
 
 
@@ -87,12 +88,12 @@ def login():
         """rows = db.execute("SELECT * FROM users WHERE username = :username",
                           username=request.form.get("username"))"""
 
-        # Ensure username exists and password is correct
+        """# Ensure username exists and password is correct
         if len(rows) != 1 or not check_password_hash(rows[0]["hash"], request.form.get("password")):
             return apology("invalid username and/or password", 403)
 
         # Remember which user has logged in
-        session["user_id"] = rows[0]["id"]
+        session["user_id"] = rows[0]["id"]"""
 
         # Redirect user to home page
         return redirect("/")
