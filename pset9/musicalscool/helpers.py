@@ -102,6 +102,7 @@ def insert_student(conn, student_data):
         return cur.lastrowid
 
 def close_connection(conn):
+    """ Closes connection to SQLite3 database """
     if conn:
         conn.close()
         print("SQLite connection is closed.")

@@ -9,30 +9,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, eur, get_user_id, connect_db, insert_user, insert_student, close_connection, dict_factory
 
+
 # Configure application
 app = Flask(__name__)
+
 
 # Configure SqLite3 database
 database = ("database.db")
 conn = connect_db(database)
 conn.row_factory = dict_factory
 cur = conn.cursor()
-
-
-user_data = ("admin", generate_password_hash("admin"))
-insert_user(conn, user_data)
-student_tuple = ("Mark", "van", "Bavel", "01-01-2001", "Gilze", "Groen", "1234567890", "0987654321", "test@text.com", "mark@test.com", "1", "Sjef", "some note")
-insert_student(conn, student_tuple)
-
-result = cur.execute("SELECT * FROM students").fetchall()
-
-
-for row in result:
-    print(row["last"], row["id"])
-
-print()
-close_connection(conn)
-
 
 
 # Ensure responses aren't cached
@@ -43,8 +29,6 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-# Custom filter
-#app.jinja_env.filters["eur"] = eur
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
@@ -58,11 +42,18 @@ Session(app)
 @login_required
 def index():
     """Show overview of all students in a table"""
-    if request.method == "GET":
-        return render_template("index.html")
-    
+    if request.method == "POST":
+
+        """TODO"""
+
+        # Close database connection 
+        close_connection(conn)
+
+        return redirect("/")    
+
     else:
-        return redirect("/")
+        return render_template("index.html")
+
 
 
 # Login route
@@ -84,6 +75,14 @@ def login():
             return apology("must provide password", 403)
 
         # Query database for username
+
+        # Query database for password
+
+        # Remember which user has logged in
+
+        # Close database connection
+        close_connection(conn)
+
 
         """rows = db.execute("SELECT * FROM users WHERE username = :username",
                           username=request.form.get("username"))"""
@@ -110,6 +109,9 @@ def logout():
     # Forget any user_id
     session.clear()
 
+    # Close database connection
+    close_connection(conn)
+
     # Redirect user to login form
     return redirect("/")
 
@@ -117,9 +119,20 @@ def logout():
 @app.route("/register")
 def register():
     if request.method == "POST":
-        user_id = get_user_id()
 
-        print(user_id)
+        # Clear current user id
+        session.clear()
+
+        # Get username and password from form
+            # Ensure both passwords match
+        # Insert username and password into database
+
+        # Close database connection
+        close_connection(conn)
+
+        
+        
+        
     
     else:
         return render_template("index.html")

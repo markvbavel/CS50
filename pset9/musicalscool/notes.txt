@@ -1,0 +1,10 @@
+user_data = ("admin", generate_password_hash("admin"))
+insert_user(conn, user_data)
+first = str("Amy")
+last = str("Beekmans")
+student_tuple = (first, None, last, "01-01-2001", "Gilze", "Groen", "1234567890", "0987654321", "test@text.com", "mark@test.com", "1", "Sjef", "some note")
+insert_student(conn, student_tuple)
+
+result = cur.execute("SELECT * FROM students").fetchall()
+for row in result:
+    print(row)
