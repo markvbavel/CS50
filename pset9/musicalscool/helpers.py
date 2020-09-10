@@ -58,6 +58,14 @@ def connect_db(db_file):
     except sqlite3.Error as error:
         print("Failed to connect to database. Error:", error)
 
+
+def close_connection(conn):
+    """ Closes connection to SQLite3 database """
+    if conn:
+        conn.close()
+        print("SQLite connection is closed.")
+
+
 def dict_factory(cursor, row):
     """ Returns dictionary """
     d = {}
@@ -65,9 +73,9 @@ def dict_factory(cursor, row):
         d[col[0]] = row[idx]
     return d    
 
+
 def insert_user(conn, user_data):
     """Returns user id"""
-
     try:
         sql = "INSERT INTO users (username, hash) VALUES (?, ?)"
 
@@ -85,7 +93,6 @@ def insert_user(conn, user_data):
 
 def insert_student(conn, student_data):
     """Returns student id"""
-
     try:
         sql = """INSERT INTO students 
                 (first, middle, last, birth, city, class, tel_1, tel_2, email_1, email_2, cast, role, notes)
@@ -101,8 +108,22 @@ def insert_student(conn, student_data):
     finally:
         return cur.lastrowid
 
-def close_connection(conn):
-    """ Closes connection to SQLite3 database """
-    if conn:
-        conn.close()
-        print("SQLite connection is closed.")
+def search_user(connection, query):
+    """Returns list of users""" 
+        
+    return
+
+
+def search_student():
+    """Returns list of students"""
+    return
+
+
+def mod_user():
+    """Returns user id that was modified"""
+    return
+
+
+def mod_student():
+    """Returns student id that was modified"""
+    return            
