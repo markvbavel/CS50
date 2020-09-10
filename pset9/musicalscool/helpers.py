@@ -2,9 +2,10 @@ import os
 import requests
 import urllib.parse
 
+import sqlite3
 from flask import redirect, render_template, request, session
 from functools import wraps
-
+ 
 
 def apology(message, code=400):
     """Render message as an apology to user."""
@@ -39,7 +40,58 @@ def eur(value):
     """Format value as eur."""
     return f"${value:,.2f}"
 
+
 def get_user_id():
-    # Gets user ID
+    """Gets user ID"""
     user_id = session["user_id"]
     return user_id
+
+
+def connect_db(db_file):
+    """Returns SQLite3 connection"""
+    conn = None
+    try:
+        conn = sqlite3.connect(db_file)
+        print("Succesfully connected to {}".format(db_file))    
+        return conn
+
+    except sqlite3.Error as error:
+        print("Failed to connect to database. Error:", error)
+    
+
+def insert_user(conn, user_data):
+    """Returns user id"""
+
+    try:
+        sql = "INSERT INTO users (username, hash) VALUES (?, ?)"
+
+        cur = conn.cursor()
+        cur.execute(sql, user_data)
+        conn.commit()
+        print(cur.rowcount, "records inserted successfully into users table.")
+        return cur.lastrowid
+
+    except sqlite3.Error as error:
+        print("Failed to insert user into users table. Error:", error)
+
+
+def insert_student(conn, student_data):
+    """Returns student id"""
+
+    try:
+        sql = """INSERT INTO students 
+                (first, middle, last, birth, city, class, tel_1, tel_2, email_1, email_2, cast, role, notes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+        cur = conn.cursor()
+        cur.execute(sql, student_data)
+        conn.commit()
+        print(cur.rowcount, "records inserted succesfully into students table.")
+        return cur.lastrowid
+
+    except sqlite3.Error as error:
+        print("Failed to insert student data into students table. Error:", error)    
+
+def close_connection(conn):
+    if conn:
+        conn.close()
+        print("SQLite connection is closed.")

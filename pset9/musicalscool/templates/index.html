@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        {% if not session.user_id %}
+            <h3>Please login first</h3> <br>
+            <p>index.html</p>
+        {% endif %}
+    </div>
+
+    <!-- DO NOT FORGET TO MANIPULATE INPUT FIELD TO OUTPUT NULL OR NONE WHEN EMPTY -->
+    <table class="table table-light table-striped">
+        <thead>
+            <tr>
+                {% for headers in data %}
+                <th>{ header }</th>
+                {% endfor %}
+            </tr>
+        </thead>
+    </table>
+
+
+{% endblock %}
