@@ -9,7 +9,6 @@
         <!-- Stylesheets -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
         <link rel="stylesheet" href="/static/css/styles.css">
         <title>Musical'sCool! - {% block title %}{% endblock %}</title>
@@ -34,8 +33,8 @@
                             
                             <div class="dropdown-menu">
                                 <form class="form-horizontal" method="POST">
-                                    <input class="form-control login" type="text" name="username" placeholder="Username...">
-                                    <input class="form-control login" type="password" name="password" placeholder="Password...">
+                                    <input class="form-control login" type="text" name="login_username" placeholder="Username...">
+                                    <input class="form-control login" type="password" name="login_password" placeholder="Password...">
                                     <input class="btn btn-primary" type="submit" name="submit" value="Login"> 
                                 </form>
                             </div>
@@ -46,15 +45,33 @@
                             
                             <div class="dropdown-menu">
                                 <form class="form-horizontal" method="POST">
-                                    <input class="form-control register" type="text" name="username" placeholder="Username...">
-                                    <input class="form-control register" type="password" name="password" placeholder="Password...">
+                                    <input class="form-control register" type="text" name="register_username" placeholder="Username...">
+                                    <input class="form-control register" type="password" name="register_password" placeholder="Password...">
+                                    <input class="form-control register" type="password" name="register_confirm" placeholder="Confirm...">
                                     <input class="btn btn-primary" type="submit" name="submit" value="Sign up"> 
                                 </form>
                             </div>
                         </li>    
                     {% else %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">{ username }</a>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">{{ session["USERNAME"] }}</a>
+                            
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li class="nav-item">
+                                        <h6>Edit profile</h6>
+                                    </li>
+                                    <li class="nav-item">
+                                        <h6>Change password</h6>
+                                    </li>
+                                    <li class="nav-item">
+                                        <h6>Logout</h6>
+                                    </li>                                   
+                                </ul>
+                            </div>
+                        
+                        
+                        
                         </li>             
                     {% endif %}
                     <div class="search-container">

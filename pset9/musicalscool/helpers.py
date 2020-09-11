@@ -54,7 +54,6 @@ def connect_db(db_file):
         conn = sqlite3.connect(db_file)
         print("Succesfully connected to {}".format(db_file))    
         return conn
-
     except sqlite3.Error as error:
         print("Failed to connect to database. Error:", error)
 
@@ -75,7 +74,9 @@ def dict_factory(cursor, row):
 
 
 def insert_user(conn, user_data):
-    """Returns user id"""
+    """
+    user_data = username, hash
+    Returns user id"""
     try:
         sql = "INSERT INTO users (username, hash) VALUES (?, ?)"
 
@@ -87,7 +88,6 @@ def insert_user(conn, user_data):
     else:
         conn.commit()    
         print(cur.rowcount, "records inserted successfully into users table.")
-    finally:
         return cur.lastrowid
 
 
@@ -105,19 +105,31 @@ def insert_student(conn, student_data):
     else:
         conn.commit()
         print(cur.rowcount, "records inserted succesfully into students table.")
-    finally:
         return cur.lastrowid
 
-def search_user(connection, query):
+def search_user(conn, query):
     """Returns list of users""" 
-        
-    return
+    try:
+        cur = conn.cursor()
+        records = cur.execute(query).fetchall() 
+    except sqlite3.Error as error:
+        print("Failed to search user table. Error:", error)
+        return
+    else:
+        print(len(records),"records matched the search query.")
+        return records   
 
-
-def search_student():
+def search_student(conn, query):
     """Returns list of students"""
-    return
-
+    try:
+        cur = conn.cursor()
+        records = cur.execute(query).fetchall()
+    except sqlite3.Error as error:
+        print("Failed to search students table. Error", error)
+    else:
+        print(len(records),"records matched the search query.")
+        return records
+  
 
 def mod_user():
     """Returns user id that was modified"""
