@@ -107,17 +107,21 @@ def insert_student(conn, student_data):
         print(cur.rowcount, "records inserted succesfully into students table.")
         return cur.lastrowid
 
-def search_user(conn, query):
+def search_user(conn, username):
     """Returns list of users""" 
     try:
         cur = conn.cursor()
-        records = cur.execute(query).fetchall() 
+        cur.execute("SELECT * FROM users WHERE username =?",(username,))
+        records = cur.fetchall() 
     except sqlite3.Error as error:
         print("Failed to search user table. Error:", error)
         return
     else:
         print(len(records),"records matched the search query.")
-        return records   
+        if records == None:
+            return 0
+        else:
+            return records   
 
 def search_student(conn, query):
     """Returns list of students"""
@@ -127,8 +131,9 @@ def search_student(conn, query):
     except sqlite3.Error as error:
         print("Failed to search students table. Error", error)
     else:
-        print(len(records),"records matched the search query.")
-        return records
+        if len(records) >= 1:
+            print(len(records),"records matched the search query.")
+            return records
   
 
 def mod_user():

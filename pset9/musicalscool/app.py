@@ -19,6 +19,21 @@ app = Flask(__name__)
 # Configure SqLite3 database
 database = ("database.db")
 
+"""# Add admin to database.db
+conn = connect_db(database)
+conn.row_factory = dict_factory
+cur = conn.cursor()
+
+password = generate_password_hash("admin")
+print(password)
+cur.execute("INSERT INTO users (username, hash) VALUES (?, ?)", ("admin", password))
+conn.commit()
+
+records = cur.execute("SELECT * FROM users").fetchall()
+for row in records:
+    print("row: ", row)"""
+
+
 
 # Ensure responses aren't cached
 @app.after_request
@@ -39,7 +54,6 @@ Session(app)
 
 # Home route
 @app.route("/")
-@login_required
 def index():
     """Show overview of all students in a table"""
     if request.method == "POST":
@@ -61,8 +75,6 @@ def index():
 def login():
     """Log user in"""
 
-
-
     # User reached route via POST
     if request.method == "POST":
 
@@ -73,24 +85,26 @@ def login():
         # Gather form input
         username = request.form.get("login_username")
         password = generate_password_hash(request.form.get("login_password"))
-        query = """SELECT * FROM users WHERE username =?, (username,)"""
 
         # Error checking on user input
-        if not username:
-            return apology("must provide username", 403)
-        elif not password:
-            return apology("must provide password", 403)
+        if not username or not password:
+            return apology("Please fill in all the required fields", 403)
 
-        # Query database for username
-        records = search_user(conn, query)
+        # Query users table for username
+        records = search_user(conn, username)
 
         # Ensure username exists and password is correct
-        if not records or len(records) != 1 or not check_password_hash(records[0]["hash"], request.form.get("password")):
-            return apology("invalid username and/or password", 403)
-                
+        if len(records) != 1:
+            return apology("username not found", 403)
+        elif check_password_hash(records[0]["hash"], password) == False:
+            return apology("Invalid password", 403)
+                        
         # Remember which user has logged in
         session["user_id"] = records[0]["id"]
         session["USERNAME"] = records[0]["username"]
+
+        print("session user_id: ", session["user_id"])
+        print("session username: ", session["USERNAME"])
 
         # Close database connection
         close_connection(conn)
@@ -117,21 +131,39 @@ def logout():
     return redirect("/")
 
 # Register route
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
 
         # Clear current user id
         session.clear()
 
+        # Connect to database 
+        conn = connect_db(database)
+        conn.row_factory = dict_factory
+
         # Get username and password from form
-            # Ensure both passwords match
+        username = request.form.get("register_username")
+        password = generate_password_hash(request.form.get("register_password"))
+        confirm = generate_password_hash(request.form.get("register_confirm"))
+        
+        # Error check
+        records = search_user(conn, username)
+        print("records: ", records)
+
+    
+        #   If user is in database
+        #   if passwords do not match
+        #   if all input fields are provided
+            
+
+
         # Insert username and password into database
 
         # Close database connection
         # close_connection(conn)
 
-        
+        return redirect("/")
         
         
     

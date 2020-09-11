@@ -7,6 +7,7 @@ CREATE TABLE 'users' (
 );
 
 DROP TABLE IF EXISTS students;
+
 CREATE TABLE 'students' (
     'id' integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
     'first' text NOT NULL, 
