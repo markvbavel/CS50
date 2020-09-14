@@ -5,23 +5,23 @@
 {% endblock %}
 
 {% block main %}
-    <div class="container">
-        {% if not session.user_id %}
+    {% if not session.user_id %}        
+        <div class="container">
             <h3>Please login first</h3> <br>
             <p>index.html</p>
-        {% endif %}
-    </div>
-
+        </div>
+    {% endif %}
     <!-- DO NOT FORGET TO MANIPULATE INPUT FIELD TO OUTPUT NULL OR NONE WHEN EMPTY -->
+    {% if data %}
     <table class="table table-light table-striped">
         <thead>
             <tr>
-                {% for headers in data %}
+                {% for row in data %}
                 <th>{ header }</th>
                 {% endfor %}
             </tr>
         </thead>
     </table>
-
+    {% endif %}
 
 {% endblock %}

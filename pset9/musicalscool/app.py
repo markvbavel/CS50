@@ -2,7 +2,7 @@ import os
 import sqlite3
 import secrets  
 
-from flask import Flask, flash, jsonify, redirect, render_template, request, session, g
+from flask import Flask, flash, jsonify, redirect, render_template, request, session, g, url_for
 from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
@@ -66,10 +66,19 @@ def index():
         - dispaly results on index.html
         """
 
-        return redirect("/")    
+        return redirect(url_for("index"))    
 
     else:
-        return render_template("index.html", session = session)
+        # Connect to database 
+        conn = connect_db(database)
+        conn.row_factory = dict_factory
+
+        # Display all students
+        query = "SELECT * FROM students"
+
+        records = search_student(conn, query)
+
+        return render_template("index.html", session = session, data = records)
 
 
 
@@ -116,7 +125,7 @@ def login():
         flash("Logged in")
 
         # Redirect user to home page
-        return redirect("/")
+        return redirect(url_for("index"))
 
     # User reached route via GET
     else:
@@ -132,8 +141,10 @@ def logout():
     # Forget any user_id
     session.clear()
 
+    flash("Logged out")
+
     # Redirect user to home
-    return redirect("/")
+    return redirect(url_for(("index")))
 
 
 
@@ -177,7 +188,7 @@ def register():
         flash("Signed up!")
         
         # Redirect user to home
-        return redirect("/")
+        return redirect(url_for("index"))
             
     else:
         return render_template("index.html")

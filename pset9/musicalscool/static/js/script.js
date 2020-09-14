@@ -5,5 +5,5 @@ $( document ).ready(function() {
 
 // Hide flashed messages after 6 seconds
 $( document ).ready(function() {
-    $( "#flash" ).delay(3200).fadeOut(300);
+    $( "#flash" ).delay(500).fadeOut(1000);
 });

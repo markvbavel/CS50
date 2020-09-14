@@ -54,24 +54,21 @@
                         </li>    
                     {% else %}
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">{{ session["username"] }}</a>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"><i class="fa fa-user" style="padding-right: 0.5rem;"></i>{{ session["username"] }}</a>
                             
                             <div class="dropdown-menu">
                                 <ul>
-                                    <li class="nav-item">
+                                    <li class="dropdown-item">
                                         <p>User action 1</p>
                                     </li>
-                                    <li class="nav-item">
+                                    <li class="dropdown-item-text">
                                         <p>User action 2</p>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="/logout">Logout</a>
-                                    </li>                                   
                                 </ul>
                             </div>
-                        
-                        
-                        
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
                         </li>             
                     {% endif %}
                     <div class="search-container">
@@ -87,7 +84,7 @@
         <!-- Flashes messages at page top -->
         {% if get_flashed_messages() %}
             <header>
-                <div class="alert alert-primary border text-center" id="flash" role="alert" style="z-index: -1;">
+                <div class="alert alert-primary border text-center" id="flash" role="alert">
                     {{ get_flashed_messages() | join(" ") }}
                 </div>
             </header>
