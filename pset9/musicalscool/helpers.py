@@ -87,7 +87,7 @@ def insert_user(conn, user_data):
         conn.rollback()
     else:
         conn.commit()    
-        print(cur.rowcount, "records inserted successfully into users table.")
+        print(cur.rowcount, "record(s) inserted successfully into users table.")
         return cur.lastrowid
 
 
@@ -104,7 +104,7 @@ def insert_student(conn, student_data):
         conn.rollback()  
     else:
         conn.commit()
-        print(cur.rowcount, "records inserted succesfully into students table.")
+        print(cur.rowcount, "record(s) inserted succesfully into students table.")
         return cur.lastrowid
 
 def search_user(conn, username):
@@ -117,7 +117,7 @@ def search_user(conn, username):
         print("Failed to search user table. Error:", error)
         return
     else:
-        print(len(records),"records matched the search query.")
+        print(len(records),"record(s) matched the search query.")
         if records == None:
             return 0
         else:
@@ -132,7 +132,7 @@ def search_student(conn, query):
         print("Failed to search students table. Error", error)
     else:
         if len(records) >= 1:
-            print(len(records),"records matched the search query.")
+            print(len(records),"record(s) matched the search query.")
             return records
   
 

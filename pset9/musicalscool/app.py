@@ -33,7 +33,8 @@ records = cur.execute("SELECT * FROM users").fetchall()
 for row in records:
     print("row: ", row)"""
 
-
+# Ensure templates are auto-reloaded
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 
 # Ensure responses aren't cached
 @app.after_request
@@ -43,13 +44,12 @@ def after_request(response):
     response.headers["Pragma"] = "no-cache"
     return response
 
-
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_FILE_DIR"] = mkdtemp()
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SECRET_KEY"] = "xSuNYjNGBBEpHzSUapYIuVXmc-ROL2zDcVvkbPLDfVY"
 Session(app)
+
 
 
 # Home route
@@ -59,14 +59,17 @@ def index():
     if request.method == "POST":
 
         """TODO"""
-
-        # Close database connection 
-        # close_connection(conn)
+        """ 
+        - Get search query
+        - Run query on students database
+        - return results
+        - dispaly results on index.html
+        """
 
         return redirect("/")    
 
     else:
-        return render_template("index.html", session = Session)
+        return render_template("index.html", session = session)
 
 
 
@@ -84,7 +87,7 @@ def login():
 
         # Gather form input
         username = request.form.get("login_username")
-        password = generate_password_hash(request.form.get("login_password"))
+        password = request.form.get("login_password")
 
         # Error checking on user input
         if not username or not password:
@@ -95,19 +98,22 @@ def login():
 
         # Ensure username exists and password is correct
         if len(records) != 1:
-            return apology("username not found", 403)
+            return apology("username not found", 401)
         elif check_password_hash(records[0]["hash"], password) == False:
-            return apology("Invalid password", 403)
-                        
+            return apology("Invalid password", 401)
+
+        print("records[0]hash: ", records[0]["hash"])
+        
         # Remember which user has logged in
         session["user_id"] = records[0]["id"]
-        session["USERNAME"] = records[0]["username"]
+        session["username"] = records[0]["username"]
 
         print("session user_id: ", session["user_id"])
-        print("session username: ", session["USERNAME"])
 
         # Close database connection
         close_connection(conn)
+
+        flash("Logged in")
 
         # Redirect user to home page
         return redirect("/")
@@ -115,6 +121,8 @@ def login():
     # User reached route via GET
     else:
         return render_template("index.html")
+
+
 
 # Logout route
 @app.route("/logout")
@@ -124,18 +132,17 @@ def logout():
     # Forget any user_id
     session.clear()
 
-    # Close database connection
-    # close_connection(conn)
-
-    # Redirect user to login form
+    # Redirect user to home
     return redirect("/")
+
+
 
 # Register route
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
 
-        # Clear current user id
+        # Clear any user id
         session.clear()
 
         # Connect to database 
@@ -144,31 +151,38 @@ def register():
 
         # Get username and password from form
         username = request.form.get("register_username")
-        password = generate_password_hash(request.form.get("register_password"))
-        confirm = generate_password_hash(request.form.get("register_confirm"))
-        
+        password = request.form.get("register_password")
+
         # Error check
+        if not username or not password or not request.form.get("register_confirm"):
+            flash("Please fill in all fields")
+            return redirect("/register")
+        
+        if password != request.form.get("register_confirm"):
+            return apology("Passwords don't match", 401)
+
         records = search_user(conn, username)
-        print("records: ", records)
-
-    
-        #   If user is in database
-        #   if passwords do not match
-        #   if all input fields are provided
-            
-
-
-        # Insert username and password into database
+        if len(records) != 0:
+            return apology("Username already exists", 409)
+        
+        # Error check passed. Insert user into users database
+        """ TODO """
+        user_data = (username, generate_password_hash(password))
+        user_id = insert_user(conn, user_data)
+        print("user_id", user_id)
 
         # Close database connection
-        # close_connection(conn)
-
+        close_connection(conn)
+        
+        flash("Signed up!")
+        
+        # Redirect user to home
         return redirect("/")
-        
-        
-    
+            
     else:
         return render_template("index.html")
+
+
 
 def errorhandler(e):
     """Handle error"""
