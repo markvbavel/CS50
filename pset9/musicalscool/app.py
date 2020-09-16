@@ -53,11 +53,13 @@ Session(app)
 
 
 # Home route
+@login_required
 @app.route("/")
 def index():
     """Show overview of all students in a table"""
     if request.method == "POST":
 
+        print("INDEX POST")
         """TODO"""
         """ 
         - Get search query
@@ -69,16 +71,26 @@ def index():
         return redirect(url_for("index"))    
 
     else:
+        print("INDEX GET")
+        
         # Connect to database 
         conn = connect_db(database)
         conn.row_factory = dict_factory
 
-        # Display all students
+        # Select all student data
         query = "SELECT * FROM students"
-
         records = search_student(conn, query)
+        
+        # If no data is present
+        if not records:
+            return render_template("index.html")
 
-        return render_template("index.html", session = session, data = records)
+        # Seperate list for column headers
+        headers = list(records[0])
+        return render_template("index.html", 
+                            session = session, 
+                            records = records, 
+                            headers = headers)
 
 
 
@@ -90,6 +102,7 @@ def login():
     # User reached route via POST
     if request.method == "POST":
 
+        print("LOGIN POST")
         # Connect to database 
         conn = connect_db(database)
         conn.row_factory = dict_factory
@@ -110,14 +123,10 @@ def login():
             return apology("username not found", 401)
         elif check_password_hash(records[0]["hash"], password) == False:
             return apology("Invalid password", 401)
-
-        print("records[0]hash: ", records[0]["hash"])
         
         # Remember which user has logged in
         session["user_id"] = records[0]["id"]
         session["username"] = records[0]["username"]
-
-        print("session user_id: ", session["user_id"])
 
         # Close database connection
         close_connection(conn)
@@ -129,6 +138,7 @@ def login():
 
     # User reached route via GET
     else:
+        print("LOGIN GET")
         return render_template("index.html")
 
 
@@ -153,6 +163,7 @@ def logout():
 def register():
     if request.method == "POST":
 
+        print("REGISTER POST")
         # Clear any user id
         session.clear()
 
@@ -177,10 +188,9 @@ def register():
             return apology("Username already exists", 409)
         
         # Error check passed. Insert user into users database
-        """ TODO """
         user_data = (username, generate_password_hash(password))
-        user_id = insert_user(conn, user_data)
-        print("user_id", user_id)
+        insert_user(conn, user_data)
+
 
         # Close database connection
         close_connection(conn)
@@ -191,7 +201,22 @@ def register():
         return redirect(url_for("index"))
             
     else:
+        print("REGISTER GET")
         return render_template("index.html")
+
+
+@app.route("/new", methods = ["GET", "POST"])
+@login_required
+def new():
+    """ Adds new students to students table """
+
+    if request.method == "POST":
+        """ TODO """
+        return redirect(url_for("index"))
+
+    else:
+        return render_template("index.html")    
+
 
 
 

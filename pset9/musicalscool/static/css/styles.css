@@ -77,7 +77,20 @@ main img
     max-width: 100%;
 }
 
-.alert {
-    top: 71px;
-    z-index: -1;
+.col-half {
+    max-width: 50%;
+    position: relative;
+}
+
+.col-third {
+    max-width: 33%;
+    position: relative;
+}
+
+.radio {
+    display: inline-block;
+}
+
+.form-popup {
+    background-color: lightgrey;
 }

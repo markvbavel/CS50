@@ -5,23 +5,168 @@
 {% endblock %}
 
 {% block main %}
-    {% if not session.user_id %}        
-        <div class="container">
-            <h3>Please login first</h3> <br>
-            <p>index.html</p>
+{% if not session.user_id %}        
+    <div class="container">        
+        <h4>Please login first</h4> <br>
+        <div class="container text-left">
+            <p>To view student data you have to login first. See the login button in the top left of this page.</p><br>
+            <p>Haven't got an account yet? Please register to view this page. See the Sign Up button in the top right of this page.</p> 
+            <p>current page: index.html</p>
         </div>
-    {% endif %}
-    <!-- DO NOT FORGET TO MANIPULATE INPUT FIELD TO OUTPUT NULL OR NONE WHEN EMPTY -->
-    {% if data %}
-    <table class="table table-light table-striped">
+        
+    </div>
+{% else %}
+<!-- DO NOT FORGET TO MANIPULATE INPUT FIELD TO OUTPUT NULL OR NONE WHEN EMPTY -->
+    {% if records %}
+    <table id="table" class="table table-light table-striped display">
         <thead>
             <tr>
-                {% for row in data %}
-                <th>{ header }</th>
+                {% for head in headers %}
+                <th>{{ head }}</th>
                 {% endfor %}
             </tr>
         </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                {% for value in record %}
+                <td>{{ record[value] }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
     {% endif %}
+
+    <button class="btn btn-light">Add student</button>
+
+    <div class="container form-popup align-content-center" id="newStudentForm">
+        <form class="align-content-center" action="/new" method="POST">
+            <div class="row form-row">
+                <div class="col form-control mb-3">
+                    <h4>New Student</h4>
+                </div>
+            </div>
+
+            <div class="row form-row">
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="First name" required>
+                        <input type="text" class="form-control" placeholder="Middle name - optional">
+                        <input type="text" class="form-control" placeholder="Last name" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-row">
+                <div class="col col-half">
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Email-1" required>
+                        <input type="email" class="form-control" placeholder="Email-2">
+                    </div>
+                </div>
+                <div class="col col-half">
+                    <div class="input-group">
+                        <input type="tel" class="form-control" placeholder="Tel-1" required>
+                        <input type="tel" class="form-control" placeholder="Tel-2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row form-row">
+                <div class="col col-half">
+                    <div class="col col-third">
+                        <input type="number" placeholder="DD" required>                  
+                    </div>
+                    <div class="col col-third">
+                        <input type="text" placeholder="MM" required>
+                    </div>
+                    <div class="col col-third">
+                        <div class="input-group">
+                            <select name="yearSelect" form="newStudentForm" id="yearSelect" required></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-half">
+                    <div class="input-group">
+
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+
+
+
+    <div class="container form-popup" id="newStudentForm">
+        <form action="/new" method="POST">
+            <div class="row">
+                <div class="col">
+                    <h4>New Student</h4>
+                    <div class="input-group">
+                        <input type="text" placeholder="First name">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Middle name">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Last name">
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="City">
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col col-half">
+                    <h4>Date of Birth</h4>
+                    <div class="input-group">
+                        <div class="col-third">
+                            <input type="text" placeholder="DD">
+                        </div>
+                        <div class="col-third">
+                            <input type="text" placeholder="MM">
+                        </div>
+                        <div>
+                            <input class="yearselect" placeholder="YYYY">
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-half">
+                    <h4>Group</h4>
+                    <div class="input-group">
+                        <input type="radio" name="studentGroup" value="junior" id="group-junior">
+                        <label for="group-junior">Junior</label>
+                        <input type="radio" name="studentGroup" value="oranje" id="group-oranje">
+                        <label for="group-oranje">Oranje</label>
+                        <input type="radio" name="studentGroup" value="paars" id="group-paars">
+                        <label for="group-paars">Paars</label>
+                        <input type="radio" name="studentGroup" value="blauw" id="group-blauw">
+                        <label for="group-blauw">Blauw</label>
+                        <input type="radio" name="studentGroup" value="projectgroep" id="group-pg">
+                        <label for="group-pg">Projectgroep</label>
+                        <input type="radio" name="studentGroup" value="demo" id="group-demo">
+                        <label for="group-demo">Demo</label> 
+                        <input type="radio" name="studentGroup" value="vakklas" id="group-vk">
+                        <label for="group-vk">Vakklas</label>                     
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+    </div>
+    
+
+
+
+{% endif %}
+
+
 
 {% endblock %}
