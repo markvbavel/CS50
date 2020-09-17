@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS students;
 CREATE TABLE 'students' (
     'id' integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
     'first' text NOT NULL, 
-    'middle' text, 
     'last' text NOT NULL, 
     'birth' date NOT NULL, 
     'city' text NOT NULL, 
