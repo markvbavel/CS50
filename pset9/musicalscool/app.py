@@ -85,12 +85,26 @@ def index():
         if not records:
             return render_template("index.html")
 
+        # Change "None" to "-" for readability
+        for record in records:
+            for value in record:
+                if record[value] == None:
+                    record[value] = "-"
+
+        # Student classes
+        student_classes = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
+
+        # Establish number of casts
+        student_cast = 2
+
         # Seperate list for column headers
         headers = list(records[0])
         return render_template("index.html", 
                             session = session, 
                             records = records, 
-                            headers = headers)
+                            headers = headers,
+                            student_classes = student_classes,
+                            student_cast = student_cast)
 
 
 
