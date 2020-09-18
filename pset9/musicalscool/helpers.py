@@ -95,8 +95,8 @@ def insert_student(conn, student_data):
     """Returns student id"""
     try:
         sql = """INSERT INTO students 
-                (first, middle, last, birth, city, class, tel_1, tel_2, email_1, email_2, cast, role, notes)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
+                (first, last, birth, class, tel_1, tel_2, email_1, email_2, cast, role, notes)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
         cur = conn.cursor()
         cur.execute(sql, student_data)
     except sqlite3.Error as error:

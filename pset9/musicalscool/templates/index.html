@@ -7,11 +7,8 @@
 {% block main %}
 {% if not session.user_id %}        
     <div class="container">        
-        <h4>Please login first</h4> <br>
         <div class="container text-left">
-            <p>To view student data you have to login first. See the login button in the top left of this page.</p><br>
-            <p>Haven't got an account yet? Please register to view this page. See the Sign Up button in the top right of this page.</p> 
-            <p>current page: index.html</p>
+            <p>Welcome to the Musical'sCool database. Please login first.</p>
         </div>
         
     </div>
@@ -38,28 +35,29 @@
     </table>
     {% endif %}
 
-    <button class="btn btn-light">Add student</button>
+    <button class="btn btn-outline-primary" onclick="showForm()" id="newStudentBtn">Add student</button>
     <!-- TAKE 3 -->
-    <div class="container px-5">
+    <div class="container px-5 cardContainer" id="newStudentForm">
+        <div class="blocker form-overlay" onclick="hideForm()"></div>
         <div class="card mt-3">
             <div class="card-header">
-                <h3>New Student</h3>
+                <h3 class="mt-2">New Student</h3>
             </div> <!-- End header -->
 
             <div class="card-body">
-                <form method="POST" action="#">
+                <form method="POST" action="{{ url_for('new') }}">
                     <div class="form-row mb-4">
                         <div class="col input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">First name</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="" required>
+                            <input type="text" class="form-control" name="new_firstname" required autofocus>
                         </div>
                         <div class="col input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Last name</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="" required>
+                            <input type="text" class="form-control" name="new_lastname" required>
                         </div>
                     </div>                   
                     
@@ -68,13 +66,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">E-mail</span>
                             </div>
-                            <input type="email" class="form-control" placeholder="" required>
+                            <input type="email" class="form-control" name="new_email_1" required>
                         </div>
                         <div class="col input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">2nd e-mail</span>
                             </div>
-                            <input type="email" class="form-control" placeholder="Optional">                            
+                            <input type="email" class="form-control" placeholder="Optional" name="new_email_2">                            
                         </div>
                     </div>
 
@@ -83,13 +81,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Phone number</span>
                             </div>
-                            <input type="tel" class="form-control" placeholder="" required>
+                            <input type="tel" class="form-control" name="new_phone_1" required>
                         </div>
                         <div class="col input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">2nd phone number</span>
                             </div>
-                            <input type="tel" class="form-control" placeholder="Optional">
+                            <input type="tel" class="form-control" placeholder="Optional" name="new_phone_2">
                         </div>
                     </div>
 
@@ -98,13 +96,13 @@
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Birth Date</div>
                             </div>
-                            <input type="date" class="form-control" placeholder="Birthdate" required>
+                            <input type="date" class="form-control" name="new_birth" required>
                         </div>
                         <div class="col input-group">
                             <div class="input-group-prepend">
-                                <div class="input-group-text">Groep</div>
+                                <div class="input-group-text">Group</div>
                             </div>
-                            <select class="custom-select" required>
+                            <select class="custom-select" name="new_class" required>
                                 {% for student_class in student_classes %}
                                 <option value="{{ student_class }}">{{ student_class }}</option>
                                 {% endfor %}                                
@@ -113,40 +111,44 @@
                     </div>
 
                     <div class="form-row mb-4">
-                        <div class="col-sm">
-                            <div class="col input-group">
+                        <div class="col">
+                            <div class="input-group">
                                 <div class="input-group-prepend">
                                     <div class="input-group-text">Cast</div>
                                 </div>
-                                <select class="custom-select" required>
+                                <select class="custom-select" name="new_cast" required>
                                     {% for cast in range(2) %}
-                                    <option value="{ {cast+1 }}">{{ cast+1 }}</option>
+                                    <option value="{{ cast+1 }}">{{ cast+1 }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
-                            <div class="col input-group">
+                            <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text">Rol</div>
+                                    <div class="input-group-text" style="width: 60px;">Rol</div>
                                 </div>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" name="new_role" required>
                             </div>
                         </div>
                         <div class="col input-group">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">Notes</div>
                             </div>
-                            <textarea class="form-control"></textarea>
+                            <textarea class="form-control" name="new_notes"></textarea>
                         </div>
                     </div>
-
-
-    
-                    
-                   
+                    <hr>
+                    <div class="form-row">
+                        <div class="col input-group">
+                            <input onclick="hideForm()" type="reset" class="btn btn-outline-danger btn-block" value="Cancel">
+                        </div>
+                        <div class="col input-group">
+                            <input type="submit" class="btn btn-outline-success btn-block" value="Save">
+                        </div>
+                    </div>
                 </form> <!-- End form -->
             </div> <!-- End body -->
         </div> <!-- End card -->
-    </div>
+    </div> <!-- End container -->
 
 
 

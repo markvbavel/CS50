@@ -50,15 +50,16 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# Student classes
+student_classes = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
 
 
 # Home route
 @login_required
-@app.route("/")
+@app.route("/", methods =["GET", "POST"])
+@app.route("/index", methods =["GET", "POST"])
 def index():
-    """Show overview of all students in a table"""
     if request.method == "POST":
-
         print("INDEX POST")
         """TODO"""
         """ 
@@ -71,6 +72,7 @@ def index():
         return redirect(url_for("index"))    
 
     else:
+        """Show overview of all students in a table"""
         print("INDEX GET")
         
         # Connect to database 
@@ -90,9 +92,6 @@ def index():
             for value in record:
                 if record[value] == None:
                     record[value] = "-"
-
-        # Student classes
-        student_classes = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
 
         # Establish number of casts
         student_cast = 2
@@ -145,8 +144,6 @@ def login():
         # Close database connection
         close_connection(conn)
 
-        flash("Logged in")
-
         # Redirect user to home page
         return redirect(url_for("index"))
 
@@ -164,8 +161,6 @@ def logout():
 
     # Forget any user_id
     session.clear()
-
-    flash("Logged out")
 
     # Redirect user to home
     return redirect(url_for(("index")))
@@ -191,8 +186,7 @@ def register():
 
         # Error check
         if not username or not password or not request.form.get("register_confirm"):
-            flash("Please fill in all fields")
-            return redirect("/register")
+            return apology("Please fill in all fields", 401)
         
         if password != request.form.get("register_confirm"):
             return apology("Passwords don't match", 401)
@@ -208,9 +202,7 @@ def register():
 
         # Close database connection
         close_connection(conn)
-        
-        flash("Signed up!")
-        
+                
         # Redirect user to home
         return redirect(url_for("index"))
             
@@ -226,9 +218,41 @@ def new():
 
     if request.method == "POST":
         """ TODO """
+        print("NEW POST")
+        
+        # Connect to database 
+        conn = connect_db(database)
+        conn.row_factory = dict_factory
+
+        # Gather data from form and put into a tuple
+
+        student_data = (\
+            request.form.get("new_firstname"),\
+            request.form.get("new_lastname"),\
+            request.form.get("new_birth"),\
+            request.form.get("new_class"),\
+            request.form.get("new_phone_1"),\
+            request.form.get("new_phone_2"),\
+            request.form.get("new_email_1"),\
+            request.form.get("new_email_2"),\
+            request.form.get("new_cast"),\
+            request.form.get("new_role"),\
+            request.form.get("new_notes"))
+
+
+
+        print("student data", student_data) 
+        
+        
+        # Insert into database
+        insert_student(conn, student_data)
+
+
+
         return redirect(url_for("index"))
 
     else:
+        print("NEW GET")
         return render_template("index.html")    
 
 

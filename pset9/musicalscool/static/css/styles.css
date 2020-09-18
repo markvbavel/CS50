@@ -77,20 +77,26 @@ main img
     max-width: 100%;
 }
 
-.col-half {
-    max-width: 50%;
-    position: relative;
+
+.cardContainer { 
+    display: none; 
+    position: fixed;
+    top: 6rem;
+    
+}
+.cardContainer.open { 
+    display: block; 
 }
 
-.col-third {
-    max-width: 33%;
-    position: relative;
+.blocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: " ";
 }
 
-.radio {
-    display: inline-block;
-}
-
-.form-popup {
-    background-color: lightgrey;
+.form-overlay {
+    
 }

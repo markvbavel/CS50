@@ -13,7 +13,6 @@ CREATE TABLE 'students' (
     'first' text NOT NULL, 
     'last' text NOT NULL, 
     'birth' date NOT NULL, 
-    'city' text NOT NULL, 
     'class' text NOT NULL, 
     'tel_1' text NOT NULL, 
     'tel_2' text, 
