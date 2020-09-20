@@ -1,162 +1,157 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Home
+Home
 {% endblock %}
 
 {% block main %}
-{% if not session.user_id %}        
-    <div class="container">        
-        <div class="container text-left">
-            <p>Welcome to the Musical'sCool database. Please login first.</p>
-        </div>
-        
-    </div>
-{% else %}
 <!-- DO NOT FORGET TO MANIPULATE INPUT FIELD TO OUTPUT NULL OR NONE WHEN EMPTY -->
-    {% if records %}
-    <table id="table" class="table table-light table-striped display">
-        <thead>
-            <tr>
-                {% for head in headers %}
-                <th>{{ head }}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records %}
-            <tr>
-                {% for value in record %}
-                <td>{{ record[value] }}</td>
-                {% endfor %}
-            </tr>
+
+{% if records %}
+<table id="table" class="table table-light table-striped display">
+    <thead>
+        <tr>
+            {% for head in headers %}
+            <th>{{ head }}</th>
             {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-
-    <button class="btn btn-outline-primary" onclick="showForm()" id="newStudentBtn">Add student</button>
-    <!-- TAKE 3 -->
-    <div class="container px-5 cardContainer" id="newStudentForm">
-        <div class="blocker form-overlay" onclick="hideForm()"></div>
-        <div class="card mt-3">
-            <div class="card-header">
-                <h3 class="mt-2">New Student</h3>
-            </div> <!-- End header -->
-
-            <div class="card-body">
-                <form method="POST" action="{{ url_for('new') }}">
-                    <div class="form-row mb-4">
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">First name</span>
-                            </div>
-                            <input type="text" class="form-control" name="new_firstname" required autofocus>
-                        </div>
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Last name</span>
-                            </div>
-                            <input type="text" class="form-control" name="new_lastname" required>
-                        </div>
-                    </div>                   
-                    
-                    <div class="form-row mb-4">
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">E-mail</span>
-                            </div>
-                            <input type="email" class="form-control" name="new_email_1" required>
-                        </div>
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">2nd e-mail</span>
-                            </div>
-                            <input type="email" class="form-control" placeholder="Optional" name="new_email_2">                            
-                        </div>
-                    </div>
-
-                    <div class="form-row mb-4">
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Phone number</span>
-                            </div>
-                            <input type="tel" class="form-control" name="new_phone_1" required>
-                        </div>
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">2nd phone number</span>
-                            </div>
-                            <input type="tel" class="form-control" placeholder="Optional" name="new_phone_2">
-                        </div>
-                    </div>
-
-                    <div class="form-row mb-4">
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">Birth Date</div>
-                            </div>
-                            <input type="date" class="form-control" name="new_birth" required>
-                        </div>
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">Group</div>
-                            </div>
-                            <select class="custom-select" name="new_class" required>
-                                {% for student_class in student_classes %}
-                                <option value="{{ student_class }}">{{ student_class }}</option>
-                                {% endfor %}                                
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row mb-4">
-                        <div class="col">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">Cast</div>
-                                </div>
-                                <select class="custom-select" name="new_cast" required>
-                                    {% for cast in range(2) %}
-                                    <option value="{{ cast+1 }}">{{ cast+1 }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text" style="width: 60px;">Rol</div>
-                                </div>
-                                <input type="text" class="form-control" name="new_role" required>
-                            </div>
-                        </div>
-                        <div class="col input-group">
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">Notes</div>
-                            </div>
-                            <textarea class="form-control" name="new_notes"></textarea>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-row">
-                        <div class="col input-group">
-                            <input onclick="hideForm()" type="reset" class="btn btn-outline-danger btn-block" value="Cancel">
-                        </div>
-                        <div class="col input-group">
-                            <input type="submit" class="btn btn-outline-success btn-block" value="Save">
-                        </div>
-                    </div>
-                </form> <!-- End form -->
-            </div> <!-- End body -->
-        </div> <!-- End card -->
-    </div> <!-- End container -->
-
-
-
-
-
-
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+        <tr>
+            {% for value in record %}
+            <td>{{ record[value] }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endif %}
 
+<button class="btn btn-outline-primary" id="newStudentBtn">Add student</button>
+<!-- TAKE 3 -->
+<div class="container" id="newStudentPopup" style="display: none">
+    <div class="newStudentBlocker" id="newStudentBlocker"></div>
+        <div class="col-sm-12">
 
-
-{% endblock %}
+            <div class="card mt-3">
+                <div class="card-header">
+                    <h3 class="mt-2">New Student</h3>
+                </div> <!-- End header -->
+                
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for('new') }}">
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">First name</span>
+                                </div>
+                                <input type="text" class="form-control" name="new_firstname" required autofocus>
+                            </div>
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Last name</span>
+                                </div>
+                                <input type="text" class="form-control" name="new_lastname" required>
+                            </div>
+                        </div>                   
+                        
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">E-mail</span>
+                                </div>
+                                <input type="email" class="form-control" name="new_email_1" required>
+                            </div>
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">2nd e-mail</span>
+                                </div>
+                                <input type="email" class="form-control" placeholder="Optional" name="new_email_2">                            
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Phone number</span>
+                                </div>
+                                <input type="tel" class="form-control" name="new_phone_1" required>
+                            </div>
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">2nd phone number</span>
+                                </div>
+                                <input type="tel" class="form-control" placeholder="Optional" name="new_phone_2">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Birth Date</div>
+                                </div>
+                                <input type="date" class="form-control" name="new_birth" required>
+                            </div>
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Group</div>
+                                </div>
+                                <select class="custom-select" name="new_class" required>
+                                    {% for student_class in session.student_classes %}
+                                    <option value="{{ student_class }}">{{ student_class }}</option>
+                                    {% endfor %}                                
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mb-4">
+                            <div class="col">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">Cast</div>
+                                    </div>
+                                    <select class="custom-select" name="new_cast" required>
+                                        {% for cast in range(2) %}
+                                        <option value="{{ cast+1 }}">{{ cast+1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text" style="width: 60px;">Rol</div>
+                                    </div>
+                                    <input type="text" class="form-control" name="new_role" required>
+                                </div>
+                            </div>
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">Notes</div>
+                                </div>
+                                <textarea class="form-control" name="new_notes"></textarea>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="form-row">
+                            <div class="col input-group">
+                                <button class="btn btn-outline-danger btn-block" type="button"><a href="{{ url_for('index') }}">Cancel</a></button>
+                            </div>
+                            <div class="col input-group">
+                                <input type="submit" class="btn btn-outline-success btn-block" value="Save">
+                            </div>
+                        </div>
+                    </form> <!-- End form -->
+                </div> <!-- End body -->
+            </div> <!-- End card -->
+        </div>
+    </div> <!-- End container -->
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    {% endblock %}

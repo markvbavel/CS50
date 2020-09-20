@@ -73,10 +73,35 @@ def dict_factory(cursor, row):
     return d    
 
 
+def get_headers(conn):
+    """
+    returns headers for database
+    """
+    cur = conn.cursor()
+    headers = []
+
+    for col in cur.fetchall():
+        headers.append(col["name"])
+
+    try:
+        cur = conn.cursor()
+        header = []
+        cur.execute
+        cur.execute("PRAGMA table_info(students)")
+    except sqlite3.Error as error:
+        print("Pragma failed. Error: ", error)
+
+    else:
+        conn.commit()
+        print("Pragma succeeded")
+        return headers
+        
+
 def insert_user(conn, user_data):
     """
     user_data = username, hash
-    Returns user id"""
+    Returns user id
+    """
     try:
         sql = "INSERT INTO users (username, hash) VALUES (?, ?)"
 
@@ -117,7 +142,7 @@ def search_user(conn, username):
         print("Failed to search user table. Error:", error)
         return
     else:
-        print(len(records),"record(s) matched the search query.")
+        print(len(records),"record(s) matched the search query on users table.")
         if records == None:
             return 0
         else:
@@ -132,7 +157,7 @@ def search_student(conn, query):
         print("Failed to search students table. Error", error)
     else:
         if len(records) >= 1:
-            print(len(records),"record(s) matched the search query.")
+            print(len(records),"record(s) matched the search query on students table.")
             return records
   
 

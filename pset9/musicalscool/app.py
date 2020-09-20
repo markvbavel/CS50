@@ -9,7 +9,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from helpers import apology, login_required, eur, get_user_id, connect_db, close_connection, dict_factory
-from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user
+from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user, get_headers
 
 
 # Configure application
@@ -50,14 +50,12 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-# Student classes
-student_classes = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
 
 
 # Home route
-@login_required
 @app.route("/", methods =["GET", "POST"])
 @app.route("/index", methods =["GET", "POST"])
+@login_required
 def index():
     if request.method == "POST":
         print("INDEX POST")
@@ -74,18 +72,27 @@ def index():
     else:
         """Show overview of all students in a table"""
         print("INDEX GET")
-        
+                
         # Connect to database 
         conn = connect_db(database)
         conn.row_factory = dict_factory
 
+        # Establish number of casts
+        student_cast = 2
+
+
         # Select all student data
+        headers = get_headers(conn)
         query = "SELECT * FROM students"
         records = search_student(conn, query)
         
         # If no data is present
         if not records:
-            return render_template("index.html")
+                        
+            return render_template("index.html", 
+                                    session = session, 
+                                    student_cast = student_cast,
+                                    headers = headers)
 
         # Change "None" to "-" for readability
         for record in records:
@@ -93,16 +100,12 @@ def index():
                 if record[value] == None:
                     record[value] = "-"
 
-        # Establish number of casts
-        student_cast = 2
-
-        # Seperate list for column headers
-        headers = list(records[0])
+        #Close db connection
+        close_connection(conn)
         return render_template("index.html", 
                             session = session, 
                             records = records, 
                             headers = headers,
-                            student_classes = student_classes,
                             student_cast = student_cast)
 
 
@@ -150,7 +153,12 @@ def login():
     # User reached route via GET
     else:
         print("LOGIN GET")
-        return render_template("index.html")
+        # Student classes   
+        student_classes = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
+
+        session["student_classes"] = student_classes
+
+        return render_template("login.html")
 
 
 
@@ -170,11 +178,13 @@ def logout():
 # Register route
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    
+    # Clear any user id
+    session.clear()
+
     if request.method == "POST":
 
         print("REGISTER POST")
-        # Clear any user id
-        session.clear()
 
         # Connect to database 
         conn = connect_db(database)
@@ -197,8 +207,10 @@ def register():
         
         # Error check passed. Insert user into users database
         user_data = (username, generate_password_hash(password))
-        insert_user(conn, user_data)
+        user_id = insert_user(conn, user_data)
 
+        session["user_id"] = user_id
+        print("session user_id", session["user_id"])
 
         # Close database connection
         close_connection(conn)

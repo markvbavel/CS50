@@ -1,5 +1,12 @@
+/* Brand colors */
+:root {
+    --brand-orange: #fb7f03;
+    --brand-purple: #a931bd;
+}
+
 body {
-    font-family: 'Varela Round', sans-serif;
+    /*font-family: 'Varela Round', sans-serif;*/
+    font-family: 'Varela', sans-serif;
 }
 
 .logo {
@@ -25,20 +32,20 @@ body {
     margin-bottom: 5px;
 }
 
-.dropdown-menu {
+/*.dropdown-menu {
     width: 300px !important;
     padding: 12px 16px;  
-}
+}*/
 
 .dropdown-toggle {
     font-family: inherit; /* Important for vertical align on mobile phones */
     margin: 0; /* Important for vertical align on mobile phones */
 }
 
-.dropdown-menu-wrap {
+/*.dropdown-menu-wrap {
     display: none;
     
-}
+}*/
 main .form-control {
     /* center form controls */
     display: inline-block;
@@ -55,14 +62,6 @@ main .form-control {
     width: 100%;
 }
 
-/* brand colors */
-.brand-orange {
-    color: #fb7f03;
-}
-.brand-purple {
-    color: #a931bd;
-}
-
 main {
     /* scroll horizontally as needed */
     overflow-x: auto;
@@ -77,26 +76,11 @@ main img
     max-width: 100%;
 }
 
-
-.cardContainer { 
-    display: none; 
-    position: fixed;
-    top: 6rem;
-    
-}
-.cardContainer.open { 
-    display: block; 
-}
-
-.blocker {
+.newStudentBlocker {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     content: " ";
-}
-
-.form-overlay {
-    
 }
