@@ -77,22 +77,18 @@ def get_headers(conn):
     """
     returns headers for database
     """
-    cur = conn.cursor()
-    headers = []
-
-    for col in cur.fetchall():
-        headers.append(col["name"])
-
     try:
         cur = conn.cursor()
-        header = []
+        headers = []
         cur.execute
         cur.execute("PRAGMA table_info(students)")
     except sqlite3.Error as error:
         print("Pragma failed. Error: ", error)
-
+        conn.rollback()
     else:
         conn.commit()
+        for col in cur.fetchall():
+            headers.append(col["name"])
         print("Pragma succeeded")
         return headers
         

@@ -7,6 +7,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from markupsafe import escape
 
 from helpers import apology, login_required, eur, get_user_id, connect_db, close_connection, dict_factory
 from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user, get_headers
@@ -267,6 +268,9 @@ def new():
         print("NEW GET")
         return render_template("index.html")    
 
+@app.route("/user/<username>")
+def profile(username):
+    return '{}\'s profile'.format(escape(username))
 
 
 
