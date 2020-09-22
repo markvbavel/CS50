@@ -135,7 +135,7 @@ def search_user(conn, username):
         cur.execute("SELECT * FROM users WHERE username =?",(username,))
         records = cur.fetchall() 
     except sqlite3.Error as error:
-        print("Failed to search user table. Error:", error)
+        print("Failed to search user table. Error: ", error)
         return
     else:
         print(len(records),"record(s) matched the search query on users table.")
@@ -148,9 +148,10 @@ def search_student(conn, query):
     """Returns list of students"""
     try:
         cur = conn.cursor()
-        records = cur.execute(query).fetchall()
+        cur.execute("SELECT * FROM students WHERE first, last LIKE ?",(query,))
+        records = cur.fetchall()
     except sqlite3.Error as error:
-        print("Failed to search students table. Error", error)
+        print("Failed to search students table. Error: ", error)
     else:
         if len(records) >= 1:
             print(len(records),"record(s) matched the search query on students table.")

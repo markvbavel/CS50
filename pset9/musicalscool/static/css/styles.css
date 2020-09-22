@@ -64,8 +64,11 @@ main img
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.newStudentCard {
+#newStudentPopup {
     position: fixed;
-    top: 6rem;
-    margin: auto;
+    top: 10%;
+    max-width: max-content;
+    min-width: min-content;
+    margin-left: 10%;
+    margin-right: 10%;
 }

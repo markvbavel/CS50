@@ -7,11 +7,11 @@ Home
 {% block main %}
 
 <!-- Search bar -->
-<div class="row">
+<div class="row mb-3">
     <div class="col">
-        <form action="" class="form-horzintal" autocomplete="off" method="POST" accept-charset="utf-8">
+        <form action="{{ url_for('search') }}" class="form-horzintal" autocomplete="off" method="POST" accept-charset="utf-8">
             <div class="input-group">
-                <input class="form-control" type="search" placeholder="Search students">
+                <input class="form-control" name="search_searchbar" type="search" placeholder="Search students">
                 <button class="btn btn-outline-success" type="submit"><i class="fa fa-search"></i></button>
             </div>
         </form>

@@ -16,23 +16,8 @@ from helpers import insert_student, insert_user, search_user, search_student, mo
 # Configure application
 app = Flask(__name__)
 
-
 # Configure SqLite3 database
 database = ("database.db")
-
-"""# Add admin to database.db
-conn = connect_db(database)
-conn.row_factory = dict_factory
-cur = conn.cursor()
-
-password = generate_password_hash("admin")
-print(password)
-cur.execute("INSERT INTO users (username, hash) VALUES (?, ?)", ("admin", password))
-conn.commit()
-
-records = cur.execute("SELECT * FROM users").fetchall()
-for row in records:
-    print("row: ", row)"""
 
 # Ensure templates are auto-reloaded
 app.config["TEMPLATES_AUTO_RELOAD"] = True
@@ -268,10 +253,30 @@ def new():
         print("NEW GET")
         return render_template("index.html")    
 
-@app.route("/user/<username>")
-def profile(username):
-    return '{}\'s profile'.format(escape(username))
 
+@app.route("/search", methods = ["GET", "POST"])
+@login_required
+def search():
+    """ Searches student """
+
+    # Connect to database 
+    conn = connect_db(database)
+    conn.row_factory = dict_factory
+
+    if request.method == "POST":
+
+        print("SEARCH POST")
+        # Get search query
+        query = request.form.get("search_searchbar")
+        print("query: ", query)
+        
+        result = search_student(conn, query)
+        print("Result: ", result)
+        return redirect(url_for("index"))
+
+    else:
+        print("SEARCH GET")
+        return redirect(url_for("index"))
 
 
 def errorhandler(e):
