@@ -10,7 +10,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from markupsafe import escape
 
 from helpers import apology, login_required, eur, get_user_id, connect_db, close_connection, dict_factory
-from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user, get_headers
+from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user, get_headers, student_overview
 
 
 # Configure application
@@ -39,60 +39,45 @@ Session(app)
 
 
 # Home route
-@app.route("/", methods =["GET", "POST"])
-@app.route("/index", methods =["GET", "POST"])
+@app.route("/", methods =["GET"])
+@app.route("/index", methods =["GET"])
 @login_required
 def index():
-    if request.method == "POST":
-        print("INDEX POST")
-        """TODO"""
-        """ 
-        - Get search query
-        - Run query on students database
-        - return results
-        - dispaly results on index.html
-        """
 
-        return redirect(url_for("index"))    
+    """Show overview of all students in a table"""
+    print("INDEX GET")
+            
+    # Connect to database 
+    conn = connect_db(database)
+    conn.row_factory = dict_factory
 
-    else:
-        """Show overview of all students in a table"""
-        print("INDEX GET")
-                
-        # Connect to database 
-        conn = connect_db(database)
-        conn.row_factory = dict_factory
+    # Establish number of casts
+    student_cast = 2
 
-        # Establish number of casts
-        student_cast = 2
-
-
-        # Select all student data
-        headers = get_headers(conn)
-        query = "SELECT * FROM students"
-        records = search_student(conn, query)
-        
-        # If no data is present
-        if not records:
-                        
-            return render_template("index.html", 
-                                    session = session, 
-                                    student_cast = student_cast,
-                                    headers = headers)
-
-        # Change "None" to "-" for readability
-        for record in records:
-            for value in record:
-                if record[value] == None:
-                    record[value] = "-"
-
-        #Close db connection
-        close_connection(conn)
+    # Select all student data
+    headers = get_headers(conn)
+    records = student_overview(conn)
+    
+    # If no data is present
+    if not records:              
         return render_template("index.html", 
-                            session = session, 
-                            records = records, 
-                            headers = headers,
-                            student_cast = student_cast)
+                                session = session, 
+                                student_cast = student_cast,
+                                headers = headers)
+
+    # Change "None" to "-" for readability
+    for record in records:
+        for value in record:
+            if record[value] == None:
+                record[value] = "-"
+
+    #Close db connection
+    close_connection(conn)
+    return render_template("index.html", 
+                        session = session, 
+                        records = records, 
+                        headers = headers,
+                        student_cast = student_cast)
 
 
 
@@ -209,6 +194,7 @@ def register():
         return render_template("index.html")
 
 
+
 @app.route("/new", methods = ["GET", "POST"])
 @login_required
 def new():
@@ -223,7 +209,6 @@ def new():
         conn.row_factory = dict_factory
 
         # Gather data from form and put into a tuple
-
         student_data = (\
             request.form.get("new_firstname"),\
             request.form.get("new_lastname"),\
@@ -237,15 +222,8 @@ def new():
             request.form.get("new_role"),\
             request.form.get("new_notes"))
 
-
-
-        print("student data", student_data) 
-        
-        
         # Insert into database
         insert_student(conn, student_data)
-
-
 
         return redirect(url_for("index"))
 
@@ -254,7 +232,8 @@ def new():
         return render_template("index.html")    
 
 
-@app.route("/search", methods = ["GET", "POST"])
+
+@app.route("/search", methods = ["POST"])
 @login_required
 def search():
     """ Searches student """
@@ -267,16 +246,30 @@ def search():
 
         print("SEARCH POST")
         # Get search query
-        query = request.form.get("search_searchbar")
+        query = str(request.form.get("search_searchbar"))
         print("query: ", query)
-        
-        result = search_student(conn, query)
-        print("Result: ", result)
-        return redirect(url_for("index"))
 
-    else:
-        print("SEARCH GET")
-        return redirect(url_for("index"))
+        column = request.form.get("search_class")
+        print("column: ", column)
+        
+        # Query databse
+        records = search_student(conn, query, column)
+        print("Result: ", records)
+
+        # Get headers from databse
+        headers = get_headers(conn)
+
+        student_cast = 2
+
+        # Close database connection
+        close_connection(conn)
+
+        return render_template("index.html",
+                                session = session,
+                                headers = headers, 
+                                records = records,
+                                student_cast = student_cast)
+
 
 
 def errorhandler(e):
@@ -288,6 +281,3 @@ def errorhandler(e):
 # Listen for errors
 for code in default_exceptions:
     app.errorhandler(code)(errorhandler)
-
-
-

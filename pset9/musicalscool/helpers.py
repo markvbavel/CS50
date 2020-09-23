@@ -61,8 +61,12 @@ def connect_db(db_file):
 def close_connection(conn):
     """ Closes connection to SQLite3 database """
     if conn:
-        conn.close()
-        print("SQLite connection is closed.")
+        try:
+            conn.close()
+        except sqlite3.Error as error:
+            print("Failed to close connection. Error: ", error)
+        else:
+            print("SQLite connection is closed.")
 
 
 def dict_factory(cursor, row):
@@ -80,13 +84,10 @@ def get_headers(conn):
     try:
         cur = conn.cursor()
         headers = []
-        cur.execute
         cur.execute("PRAGMA table_info(students)")
     except sqlite3.Error as error:
         print("Pragma failed. Error: ", error)
-        conn.rollback()
     else:
-        conn.commit()
         for col in cur.fetchall():
             headers.append(col["name"])
         print("Pragma succeeded")
@@ -96,7 +97,7 @@ def get_headers(conn):
 def insert_user(conn, user_data):
     """
     user_data = username, hash
-    Returns user id
+    Returns user_id of user inserted
     """
     try:
         sql = "INSERT INTO users (username, hash) VALUES (?, ?)"
@@ -113,10 +114,13 @@ def insert_user(conn, user_data):
 
 
 def insert_student(conn, student_data):
-    """Returns student id"""
+    """
+    student_data = first, last, birth, class, tel_1, tel_2, email_1, email_2, ensemble, role, notes
+    Returns student_id of student inserted
+    """
     try:
         sql = """INSERT INTO students 
-                (first, last, birth, class, tel_1, tel_2, email_1, email_2, cast, role, notes)
+                (first, last, birth, class, tel_1, tel_2, email_1, email_2, ensemble, role, notes)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
         cur = conn.cursor()
         cur.execute(sql, student_data)
@@ -129,27 +133,42 @@ def insert_student(conn, student_data):
         return cur.lastrowid
 
 def search_user(conn, username):
-    """Returns list of users""" 
+    """Returns list of users matching the username""" 
     try:
         cur = conn.cursor()
         cur.execute("SELECT * FROM users WHERE username =?",(username,))
-        records = cur.fetchall() 
     except sqlite3.Error as error:
         print("Failed to search user table. Error: ", error)
-        return
     else:
+        records = cur.fetchall() 
         print(len(records),"record(s) matched the search query on users table.")
         if records == None:
             return 0
         else:
             return records   
 
-def search_student(conn, query):
+def student_overview(conn):
+    """ Returns all students in database """
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM students")
+        records = cur.fetchall()
+    except sqlite3.Error as error:
+        print("Failed to display student overview. Error: ", error)
+    else:
+        if len(records) >= 1:
+            print(len(records),"record(s) found in students table.")
+            return records
+
+def search_student(conn, query, column):
     """Returns list of students"""
     try:
         cur = conn.cursor()
-        cur.execute("SELECT * FROM students WHERE first, last LIKE ?",(query,))
-        records = cur.fetchall()
+        headers = get_headers(conn)
+
+        if column in headers:
+            cur.execute("SELECT * FROM students WHERE "+column+" LIKE ?",('%'+query+'%',))
+            records = cur.fetchall()
     except sqlite3.Error as error:
         print("Failed to search students table. Error: ", error)
     else:
