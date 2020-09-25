@@ -36,19 +36,8 @@ def login_required(f):
     return decorated_function
 
 
-def eur(value):
-    """Format value as eur."""
-    return f"${value:,.2f}"
-
-
-def get_user_id():
-    """Gets user ID"""
-    user_id = session["user_id"]
-    return user_id
-
-
 def connect_db(db_file):
-    """Returns SQLite3 connection"""
+    """ Returns SQLite3 connection """
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -101,7 +90,6 @@ def insert_user(conn, user_data):
     """
     try:
         sql = "INSERT INTO users (username, hash) VALUES (?, ?)"
-
         cur = conn.cursor()
         cur.execute(sql, user_data)
     except sqlite3.Error as error:
@@ -115,12 +103,12 @@ def insert_user(conn, user_data):
 
 def insert_student(conn, student_data):
     """
-    student_data = first, last, birth, class, tel_1, tel_2, email_1, email_2, ensemble, role, notes
+    student_data = Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Cast, Role, Notes
     Returns student_id of student inserted
     """
     try:
         sql = """INSERT INTO students 
-                (first, last, birth, class, tel_1, tel_2, email_1, email_2, ensemble, role, notes)
+                (Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Cast, Role, Notes)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
         cur = conn.cursor()
         cur.execute(sql, student_data)
@@ -178,10 +166,23 @@ def search_student(conn, query, column):
   
 
 def mod_user():
-    """Returns user id that was modified"""
+    """ Returns user id that was modified """
     return
 
 
 def mod_student():
-    """Returns student id that was modified"""
+    """ Returns student id that was modified """
     return            
+
+def del_user(conn, user_id):
+    """ Deletes user from database """
+    try:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM users WHERE id =?", (user_id,))
+    except sqlite3.Error as error:
+        print("Failed to delete user data. Error: ", error)
+        conn.rollback()
+    else:
+        conn.commit()
+        print("User", user_id,"deleted from database.")
+        return

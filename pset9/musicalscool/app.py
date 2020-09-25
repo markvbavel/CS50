@@ -9,7 +9,7 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from markupsafe import escape
 
-from helpers import apology, login_required, eur, get_user_id, connect_db, close_connection, dict_factory
+from helpers import apology, login_required, connect_db, close_connection, dict_factory, del_user
 from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user, get_headers, student_overview
 
 
@@ -202,7 +202,6 @@ def new():
     """ Adds new students to students table """
 
     if request.method == "POST":
-        """ TODO """
         print("NEW POST")
         
         # Connect to database 
@@ -269,12 +268,50 @@ def search():
                                 student_cast = student_cast)
 
 
-@app.route("/delete", methods = ["POST"])
-def delete():
+
+@app.route("/user", methods = ["GET", "POST"])
+def user():
     """
-    
+    Displays user information. User can edit username and password
     """
 
+    # Connect to database 
+    conn = connect_db(database)
+    conn.row_factory = dict_factory
+
+    if request.method == "POST":
+        # To update user data
+        print("USER POST")
+        return redirect(url_for("index"))
+
+    else:
+        # Display user data
+        print("USER GET")
+        return render_template("user.html")
+    
+
+@app.route("/delete", methods = ["GET"])
+def delete():
+    """
+    Deletes user account
+    """
+
+    print("DELETE GET")
+
+    # Connect to database 
+    conn = connect_db(database)
+    conn.row_factory = dict_factory
+
+    # Gets users' id from session
+    user_id = session["user_id"]
+
+    # Function call
+    del_user(conn, user_id)
+    close_connection(conn)
+
+    session.clear()
+
+    return redirect(url_for("logout"))
 
 
 

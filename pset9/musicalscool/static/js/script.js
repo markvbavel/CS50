@@ -12,7 +12,7 @@ $(document).ready(function() {
     $("#loginForm").delay(100).fadeIn(100);
     $("#registerForm").delay(100).fadeOut(100);
     $(".registerFormLink").removeClass("active");
-    $(this).addClass("active");
+    $(".loginFormLink").addClass("active");
     e.preventDefault();
   });
   
@@ -23,7 +23,7 @@ $(document).ready(function() {
     $("#registerForm").delay(100).fadeIn(100);
     $("#loginForm").delay(100).fadeOut(100);
     $(".loginFormLink").removeClass("active");
-    $(this).addClass("active");
+    $(".registerFormLink").addClass("active");
     e.preventDefault();
   });
 
