@@ -180,8 +180,9 @@ def register():
         user_data = (username, generate_password_hash(password))
         user_id = insert_user(conn, user_data)
 
+        # Remember user
         session["user_id"] = user_id
-        print("session user_id", session["user_id"])
+        session["username"] = username
 
         # Close database connection
         close_connection(conn)
@@ -247,18 +248,15 @@ def search():
         print("SEARCH POST")
         # Get search query
         query = str(request.form.get("search_searchbar"))
-        print("query: ", query)
-
         column = request.form.get("search_class")
-        print("column: ", column)
         
         # Query databse
         records = search_student(conn, query, column)
-        print("Result: ", records)
 
         # Get headers from databse
         headers = get_headers(conn)
 
+        # Number of casts
         student_cast = 2
 
         # Close database connection
@@ -269,6 +267,14 @@ def search():
                                 headers = headers, 
                                 records = records,
                                 student_cast = student_cast)
+
+
+@app.route("/delete", methods = ["POST"])
+def delete():
+    """
+    
+    """
+
 
 
 

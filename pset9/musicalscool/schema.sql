@@ -9,16 +9,16 @@ CREATE TABLE 'users' (
 DROP TABLE IF EXISTS students;
 
 CREATE TABLE 'students' (
-    'id' integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
-    'first' text NOT NULL, 
-    'last' text NOT NULL, 
-    'birth' date NOT NULL, 
-    'class' text NOT NULL, 
-    'tel_1' text NOT NULL, 
-    'tel_2' text, 
-    'email_1' text NOT NULL, 
-    'email_2' text, 
-    'ensemble' text, 
-    'role' text, 
-    'notes' text
+    'ID' integer PRIMARY KEY AUTOINCREMENT NOT NULL, 
+    'Firstname' text NOT NULL, 
+    'Lastname' text NOT NULL, 
+    'Birthdate' date NOT NULL, 
+    'Class' text NOT NULL, 
+    'Phone' text NOT NULL, 
+    'Phone2' text, 
+    'Email' text NOT NULL, 
+    'Email2' text,
+    'Cast' text, 
+    'Role' text, 
+    'Notes' text
 );
