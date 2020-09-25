@@ -3,110 +3,72 @@
 {% block title %}
     Log In
 {% endblock %}
-
+<div class="row">
+    <div class="col">
+        <p>On this page you can edit your username or change your password.</p>
+    </div>
+</div>
 {% block main %}
-<h3>Login</h3> <br>
-<p>login.html</p>
-  
 <div class="container px-5">
     <div class="row d-flex justify-content-center">
         <div class="col col-sm-8">
             <div class="card mt-3">
+
                 <div class="card-header">
-                    <ul class="nav nav-tabs card-header-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active loginFormLink" href="#">Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link registerFormLink" href="#">Sign up</a>
-                        </li>
-                    </ul>
+                    <h3>Edit profile</h3>
                 </div>
         
                 <div class="card-body">
-                    <!-- Login form -->
-                    <form id="loginForm" method="POST" action="{{ url_for('login') }}" style="display: block">
-                        <div class="form-row mb-4">
+                    <!-- User data form -->
+                    <form id="userForm" method="POST" action="{{ url_for('user') }}">
+                        <div class="form-row mb-3">
                             <div class="col input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Username</span>
                                 </div>
-                                <input type="text" class="form-control" name="login_username" required autofocus>
-                            </div>
-                        </div>
-                        <div class="form-row mb-4">
-                            <div class="col input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">Password</span>
-                                </div>
-                                <input type="password" class="form-control" name="login_password" required>
+                                <input type="text" name="user_username" value="{{ session.username }}" class="form-control" autofocus>
                             </div>
                         </div>
                         
-                        <hr class="separator">
-                        
-                        <div class="form-row mb-4">
-                            <div class="col input-group">
-                                <a href="{{ url_for('index') }}" class="btn btn-outline-danger btn-block">Cancel</a>
-                            </div>
-                            <div class="col input-group">
-                                <input type="submit" class="btn btn-outline-success btn-block" value="Login">
-                            </div>
-                        </div>                
-                        <hr class="separator">
-                        <div class="form-row-mb-4 text-muted">
-                            <div class="col">
-                                New here? <a href="#" class="registerFormLink">Register</a>
-                            </div>
-                        </div>
-                    </form>
-                    <!-- Register form -->
-                    <form id="registerForm" method="POST" action="{{ url_for('register') }}" style="display: none">
-                        <div class="form-row mb-4">
+                        <div class="form-row mb-3">
                             <div class="col input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Username</span>
-                                </div>
-                                <input type="text" class="form-control" name="register_username" required autofocus>
+                                    <span class="input-group-text">Current password</span>
+                                </div>     
+                                <input type="password" name="user_old_pw" placeholder="Current password" class="form-control" >
                             </div>
                         </div>
                         
-                        <div class="form-row mb-4">
+                        <div class="form-row mb-3">
                             <div class="col input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Password</span>
+                                    <span class="input-group-text">New password</span>
                                 </div>
-                                <input type="password" class="form-control" name="register_password" required>
+                                <input type="password" name="user_new_pw" placeholder="New password" class="form-control">
                             </div>
                         </div>
-                        <div class="form-row mb-4">
+
+                        <div class="form-row mb-3">
                             <div class="col input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text">Confirm password</span>
+                                    <span class="input-group-text">Confirm</span>
                                 </div>
-                                <input type="password" class="form-control" name="register_confirm" required>
+                                <input type="password" name="user_new_confirm" placeholder="Confirm" class="form-control">
                             </div>
                         </div>
 
                         <hr class="separator">
                         
-                        <div class="form-row mb-4">
+                        <div class="form-row">
                             <div class="col input-group">
-                                <a href="{{ url_for('index') }}" class="btn btn-outline-danger btn-block">Cancel</a>
+                                <a href="{{ url_for('user') }}" class="btn btn-outline-danger btn-block">Cancel</a>
                             </div>
                             <div class="col input-group">
-                                <input type="submit" class="btn btn-outline-success btn-block" value="Sign up">
+                                <input type="submit" class="btn btn-outline-success btn-block" value="Update">
                             </div>
-                        </div>
-                        
-                        <hr class="separator">
-                        
-                        <div class="form-row-mb-4 text-muted">
-                            <div class="col">
-                                Have an account? <a href="#" class="loginFormLink">Login</a>
-                            </div>
-                        </div>
-                    </form>
+                        </div>                
+
+                    </form>    
                 </div>
             </div>
         </div>

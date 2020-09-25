@@ -225,6 +225,8 @@ def new():
         # Insert into database
         insert_student(conn, student_data)
 
+        flash("Student added!")
+
         return redirect(url_for("index"))
 
     else:
@@ -270,6 +272,7 @@ def search():
 
 
 @app.route("/user", methods = ["GET", "POST"])
+@login_required
 def user():
     """
     Displays user information. User can edit username and password
@@ -282,6 +285,30 @@ def user():
     if request.method == "POST":
         # To update user data
         print("USER POST")
+
+        # Gather data
+        user_id = session["user_id"]
+        username_old = session["username"]
+        username_new = request.form.get("user_username")
+        pw_old = request.form.get("user_old_pw")
+        pw_new = request.form.get("user_new_pw")
+        pw_confirm = request.form.get("user_new_confirm")
+        user_data = (username_new, generate_password_hash(pw_new))
+
+        # Compare input to existing data
+        records = search_user(conn, username_old)
+        if check_password_hash(records[0]["hash"], pw_old) == False:
+            return apology("Invalid password", 401)
+        
+        if pw_new != pw_confirm:
+            return apology("Passwords don't match", 401)
+        
+        # Update user data
+        mod_user(conn, user_data, user_id)
+        close_connection(conn)
+
+        flash("Profile updated!")
+        
         return redirect(url_for("index"))
 
     else:
@@ -291,6 +318,7 @@ def user():
     
 
 @app.route("/delete", methods = ["GET"])
+@login_required
 def delete():
     """
     Deletes user account
@@ -309,7 +337,7 @@ def delete():
     del_user(conn, user_id)
     close_connection(conn)
 
-    session.clear()
+    flash("Profile deleted!")
 
     return redirect(url_for("logout"))
 

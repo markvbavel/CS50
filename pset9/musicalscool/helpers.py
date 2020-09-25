@@ -86,6 +86,7 @@ def get_headers(conn):
 def insert_user(conn, user_data):
     """
     user_data = username, hash
+    
     Returns user_id of user inserted
     """
     try:
@@ -104,6 +105,7 @@ def insert_user(conn, user_data):
 def insert_student(conn, student_data):
     """
     student_data = Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Cast, Role, Notes
+    
     Returns student_id of student inserted
     """
     try:
@@ -153,7 +155,6 @@ def search_student(conn, query, column):
     try:
         cur = conn.cursor()
         headers = get_headers(conn)
-
         if column in headers:
             cur.execute("SELECT * FROM students WHERE "+column+" LIKE ?",('%'+query+'%',))
             records = cur.fetchall()
@@ -165,9 +166,23 @@ def search_student(conn, query, column):
             return records
   
 
-def mod_user():
-    """ Returns user id that was modified """
-    return
+def mod_user(conn, user_data, user_id):
+    """ 
+    user_data = username, hash, id
+
+    Returns user id that was modified 
+    """
+    (username, pw_hash) = user_data
+    try:
+        cur = conn.cursor()
+        records = cur.execute("UPDATE users SET username=?, hash=? WHERE id=?", (username, pw_hash, user_id))
+    except sqlite3.Error as error:
+        print("Failed to update user data. Error: ", error)
+        conn.rollback()
+    else:
+        conn.commit()
+        print("user", user_id,"was succesfully updated.")
+        return records
 
 
 def mod_student():

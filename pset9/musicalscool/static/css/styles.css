@@ -6,7 +6,7 @@
 
 body {
     /*font-family: 'Varela Round', sans-serif;*/
-    font-family: 'Varela', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .logo {
@@ -33,11 +33,17 @@ main .form-control {
 }
 
 .margin-offset {
-    margin-top: 7em;
+    margin-top: 3em;
 }
+
 .sticky {
-    position: fixed;
+    position: relative !important;
     width: 100%;
+}
+
+
+.alert {
+    top: 2rem;
 }
 
 main {

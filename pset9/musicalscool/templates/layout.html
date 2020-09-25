@@ -11,13 +11,14 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Varela+Round">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Varela&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap">
         <link rel="stylesheet" href="/static/css/styles.css">
         <title>Musical'sCool! - {% block title %}{% endblock %}</title>
     </head>
 
     <body>
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky" style="z-index: 1">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light sticky " style="z-index: 1">
             <a class="navbar-brand logo" href="{{ url_for('index') }}">
                 <img class="logo" src="/static/images/musicalscool-logo.png" alt="">
             </a>
@@ -36,15 +37,18 @@
                             {{ session["username"] }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="{{ url_for('user') }}">Change password</a>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                            <a class="dropdown-item" href="{{ url_for('delete') }}">Delete account</a>
-                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url_for('user') }}">Edit profile</a>
                             <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url_for('delete') }}">Delete account</a>
                         </div>
                     </li>
                     <li class="nav-item mr-1">
                         <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('login') }}">Login</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -59,13 +63,13 @@
                 </div>
             </header>
         {% endif %}
-
+        
         <main>
             <div class="container margin-offset" style="z-index: 0">
                 {% block main %}{% endblock %}
             </div>
         </main>
-
+        
         <!-- JS -->
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
