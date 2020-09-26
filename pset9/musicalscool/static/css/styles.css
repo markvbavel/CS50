@@ -1,0 +1,83 @@
+/* Brand colors */
+:root {
+    --brand-orange: #fb7f03;
+    --brand-purple: #a931bd;
+}
+
+body {
+    /*font-family: 'Varela Round', sans-serif;*/
+    font-family: 'Roboto', sans-serif;
+}
+
+.logo {
+    /* style logo */
+
+    width: auto;
+    display: flex;
+    max-width: 350px;
+    margin-left: inherit;
+    margin-right: inherit;
+}
+
+.dropdown-toggle {
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+}
+
+main {
+    /* scroll horizontally as needed */
+    overflow-x: auto;
+
+    /* center contents */
+    text-align: center;
+}
+
+main .form-control {
+    /* center form controls */
+    display: inline-block;
+
+    /* override Bootstrap's 100% width for form controls */
+    width: auto;
+}
+
+.margin-offset {
+    margin-top: 3em;
+}
+
+.sticky {
+    position: relative !important;
+    width: 100%;
+}
+
+.alert {
+    top: 2rem;
+}
+
+.table {
+    table-layout: auto;
+}
+
+main img
+{
+    /* constrain images on small screens */
+    max-width: 100%;
+    width: 100%;
+}
+
+.newStudentBlocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: " ";
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+#newStudentPopup {
+    position: fixed;
+    top: 10%;
+    margin-left: 10%;
+    margin-right: 10%;
+    z-index: 1000;
+}
