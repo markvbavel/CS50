@@ -1,4 +1,9 @@
-cs50
-Flask
-Flask-Session
+
+sqlite3
+flask
+flask_session
 requests
+tempfile
+werkzeug.exceptions
+werkzeug.security
+markupsafe
