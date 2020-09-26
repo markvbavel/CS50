@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+<h2>Welcome</h3>
+<p>Please login or register</p>
+  
+<div class="container px-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col col-sm-8">
+            <div class="card mt-3">
+                <div class="card-header">
+                    <ul class="nav nav-tabs card-header-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active loginFormLink" href="#">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link registerFormLink" href="#">Sign up</a>
+                        </li>
+                    </ul>
+                </div>
+        
+                <div class="card-body">
+                    <!-- Login form -->
+                    <form id="loginForm" method="POST" action="{{ url_for('login') }}" style="display: block">
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Username</span>
+                                </div>
+                                <input type="text" class="form-control" name="login_username" required autofocus>
+                            </div>
+                        </div>
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Password</span>
+                                </div>
+                                <input type="password" class="form-control" name="login_password" required>
+                            </div>
+                        </div>
+                        
+                        <hr class="separator">
+                        
+                        <div class="form-row mb-3">
+                            <div class="col input-group">
+                                <a href="{{ url_for('index') }}" class="btn btn-outline-danger btn-block">Cancel</a>
+                            </div>
+                            <div class="col input-group">
+                                <input type="submit" class="btn btn-outline-success btn-block" value="Login">
+                            </div>
+                        </div>                
+                        <hr class="separator">
+                        <div class="form-row text-muted">
+                            <div class="col">
+                                New here? <a href="#" class="registerFormLink">Register</a>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- Register form -->
+                    <form id="registerForm" method="POST" action="{{ url_for('register') }}" style="display: none">
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Username</span>
+                                </div>
+                                <input type="text" class="form-control" name="register_username" required autofocus>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Password</span>
+                                </div>
+                                <input type="password" class="form-control" name="register_password" required>
+                            </div>
+                        </div>
+                        <div class="form-row mb-4">
+                            <div class="col input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Confirm password</span>
+                                </div>
+                                <input type="password" class="form-control" name="register_confirm" required>
+                            </div>
+                        </div>
+
+                        <hr class="separator">
+                        
+                        <div class="form-row">
+                            <div class="col input-group">
+                                <a href="{{ url_for('index') }}" class="btn btn-outline-danger btn-block">Cancel</a>
+                            </div>
+                            <div class="col input-group">
+                                <input type="submit" class="btn btn-outline-success btn-block" value="Sign up">
+                            </div>
+                        </div>
+                        
+                        <hr class="separator">
+                        
+                        <div class="form-row text-muted">
+                            <div class="col">
+                                Have an account? <a href="#" class="loginFormLink">Login</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
