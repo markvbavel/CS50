@@ -18,7 +18,7 @@ CREATE TABLE 'students' (
     'Phone2' text, 
     'Email' text NOT NULL, 
     'Email2' text,
-    'Cast' text, 
+    'Showtime' text, 
     'Role' text, 
     'Notes' text
 );

@@ -140,11 +140,11 @@ Home
                         <div class="col">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <div class="input-group-text">Cast</div>
+                                    <div class="input-group-text">Showtime</div>
                                 </div>
-                                <select class="custom-select" name="new_cast" required>
-                                    {% for cast in range(2) %}
-                                    <option value="{{ cast+1 }}">{{ cast+1 }}</option>
+                                <select class="custom-select" name="new_showtime" required>
+                                    {% for show in showtime %}
+                                    <option value="{{ show }}">{{ show }}</option>
                                     {% endfor %}
                                 </select>
                             </div>

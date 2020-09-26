@@ -104,13 +104,13 @@ def insert_user(conn, user_data):
 
 def insert_student(conn, student_data):
     """
-    student_data = Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Cast, Role, Notes
+    student_data = Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Showtime, Role, Notes
     
     Returns student_id of student inserted
     """
     try:
         sql = """INSERT INTO students 
-                (Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Cast, Role, Notes)
+                (Firstname, Lastname, Birthdate, Class, Phone, Phone2, Email, Email2, Showtime, Role, Notes)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"""
         cur = conn.cursor()
         cur.execute(sql, student_data)

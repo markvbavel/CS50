@@ -52,7 +52,7 @@ def index():
     conn.row_factory = dict_factory
 
     # Establish number of casts
-    student_cast = 2
+    showtime = ("Saturday", "Sunday")
 
     # Select all student data
     headers = get_headers(conn)
@@ -62,7 +62,7 @@ def index():
     if not records:              
         return render_template("index.html", 
                                 session = session, 
-                                student_cast = student_cast,
+                                showtime = showtime,
                                 headers = headers)
 
     # Change "None" to "-" for readability
@@ -77,7 +77,7 @@ def index():
                         session = session, 
                         records = records, 
                         headers = headers,
-                        student_cast = student_cast)
+                        showtime = showtime)
 
 
 
@@ -218,7 +218,7 @@ def new():
             request.form.get("new_phone_2"),\
             request.form.get("new_email_1"),\
             request.form.get("new_email_2"),\
-            request.form.get("new_cast"),\
+            request.form.get("new_showtime"),\
             request.form.get("new_role"),\
             request.form.get("new_notes"))
 
@@ -258,7 +258,7 @@ def search():
         headers = get_headers(conn)
 
         # Number of casts
-        student_cast = 2
+        showtime = ("Saturday", "Sunday")
 
         # Close database connection
         close_connection(conn)
@@ -267,7 +267,7 @@ def search():
                                 session = session,
                                 headers = headers, 
                                 records = records,
-                                student_cast = student_cast)
+                                showtime = showtime)
 
 
 
