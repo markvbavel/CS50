@@ -7,7 +7,7 @@ import re
 DNA = {}
 
 
-### STEP 1: Ensure correct usage ###
+#STEP 1: Ensure correct usage
 
 # Ensure correct number of arguments at command-line
 if len(argv) != 3:
@@ -23,7 +23,7 @@ if (argv[2].lower().endswith('.txt') == False):
     exit(3)
 
 
-### STEP 2: Open, read and store CSV file contents ###
+#STEP 2: Open, read and store CSV file contents
 
 # Open CSV file
 with open(argv[1], 'r') as file1:
@@ -34,14 +34,14 @@ with open(argv[1], 'r') as file1:
     headers = rows[0][1:]
 
 
-### STEP 3: Open, read and store TXT file contents ###
+#STEP 3: Open, read and store TXT file contents
 
 # Open TXT file
 with open(argv[2], 'r') as file2:
     txtread = file2.read()
 
 
-### STEP 4: Search for patterns in TXT file ###
+#STEP 4: Search for patterns in TXT file
 
     # Iterate over headers
     for i in range(len(headers)):
@@ -63,7 +63,7 @@ with open(argv[2], 'r') as file2:
             DNA[headers[i]] = int(max_temp)
 
 
-### STEP 5: Compare database with samples ###
+#STEP 5: Compare database with samples
 
 # Open csv again
 with open(argv[1], 'r') as file1:
