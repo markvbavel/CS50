@@ -185,9 +185,20 @@ def mod_user(conn, user_data, user_id):
         return records
 
 
-def mod_student():
-    """ Returns student id that was modified """
-    return            
+def del_entry(conn, entry_id):
+    """ Deletes student entry from database """
+
+    try:
+        cur = conn.cursor()
+        cur.execute("DELETE FROM students WHERE id =?", (entry_id,))
+    except sqlite3.Error as error:
+        print("Failed to delete student data. Error: ", error)
+        conn.rollback()
+    else:
+        conn.commit()
+        print("Student entry ", entry_id, "deleted.")
+        return
+
 
 def del_user(conn, user_id):
     """ Deletes user from database """

@@ -9,8 +9,8 @@ from werkzeug.exceptions import default_exceptions, HTTPException, InternalServe
 from werkzeug.security import check_password_hash, generate_password_hash
 from markupsafe import escape
 
-from helpers import apology, login_required, connect_db, close_connection, dict_factory, del_user
-from helpers import insert_student, insert_user, search_user, search_student, mod_student, mod_user, get_headers, student_overview
+from helpers import apology, login_required, connect_db, close_connection, dict_factory, del_user, del_entry
+from helpers import insert_student, insert_user, search_user, search_student, mod_user, get_headers, student_overview
 
 
 # Configure application
@@ -315,23 +315,41 @@ def user():
         # Display user data
         print("USER GET")
         return render_template("user.html")
-    
 
-@app.route("/delete", methods = ["GET"])
+
+
+@app.route("/delete/<int:entry_id>", methods = ["GET"])
 @login_required
-def delete():
+def delete_entry(entry_id):
+    """
+    Deletes entry data
+    """
+    print("DELETE ENTRY GET")
+
+    conn = connect_db(database)
+    conn.row_factory = dict_factory
+
+    # Function call
+    del_entry(conn, entry_id)
+    close_connection(conn)
+
+    flash("Entry deleted!")
+
+    return redirect(url_for("index"))
+
+
+@app.route("/user/delete/<int:user_id>", methods = ["GET"])
+@login_required
+def user_delete(user_id):
     """
     Deletes user account
     """
 
-    print("DELETE GET")
+    print("DELETE USER GET")
 
     # Connect to database 
     conn = connect_db(database)
     conn.row_factory = dict_factory
-
-    # Gets users' id from session
-    user_id = session["user_id"]
 
     # Function call
     del_user(conn, user_id)
