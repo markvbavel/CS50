@@ -51,8 +51,9 @@ def index():
     conn = connect_db(database)
     conn.row_factory = dict_factory
 
-    # Establish number of casts
+    # Establish number of casts and group names if not yet found in database
     showtime = ("Saturday", "Sunday")
+    session["student_classes"] = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
 
     # Select all student data
     headers = get_headers(conn)
@@ -124,10 +125,6 @@ def login():
     # User reached route via GET
     else:
         print("LOGIN GET")
-        # Student classes   
-        student_classes = ["Junior", "Oranje", "Paars", "Blauw", "PG", "Demo", "Vakklas"]
-
-        session["student_classes"] = student_classes
 
         return render_template("login.html")
 
@@ -192,6 +189,7 @@ def register():
             
     else:
         print("REGISTER GET")
+
         return render_template("index.html")
 
 
