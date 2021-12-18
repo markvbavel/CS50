@@ -3,8 +3,8 @@ $(document).ready(function() {
   // Switches to login form on login route
   $(".loginFormLink").click(function(e)
   {
-    $("#loginForm").delay(100).fadeIn(100);
-    $("#registerForm").delay(100).fadeOut(100);
+    $("#loginForm").delay(50).fadeIn(200);
+    $("#registerForm").fadeOut(0);
     $(".registerFormLink").removeClass("active");
     $(".loginFormLink").addClass("active");
     e.preventDefault();
@@ -13,8 +13,8 @@ $(document).ready(function() {
   // Switches to register form on login route
   $(".registerFormLink").click(function(e)
   {
-    $("#registerForm").delay(100).fadeIn(100);
-    $("#loginForm").delay(100).fadeOut(100);
+    $("#registerForm").delay(50).fadeIn(200);
+    $("#loginForm").fadeOut(0);
     $(".loginFormLink").removeClass("active");
     $(".registerFormLink").addClass("active");
     e.preventDefault();
