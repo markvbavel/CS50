@@ -2,7 +2,7 @@
 This repo contains my solutions to the problem sets for Harvard's CS50 course.  
 <br>
 
-> Please remember the rules on Academic Honesty: https://cs50.harvard.edu/x/2020/honesty/
+Please remember the rules on Academic Honesty: https://cs50.harvard.edu/x/2020/honesty/
 
 <br>
 
